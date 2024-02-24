@@ -114,4 +114,14 @@ return {
       }
     end
   },
+  {
+    -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
+    'Wansmer/treesj',
+    -- keys = { '<leader>m' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    keys = { { '<leader>m', function() require('treesj').toggle() end, desc = "split/join collections" } },
+    opts = {
+      max_join_length = 1000,
+    },
+  }
 }
