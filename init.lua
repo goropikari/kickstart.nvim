@@ -176,8 +176,8 @@ require('lazy').setup(
           end, { desc = 'git diff against last commit' })
 
           -- Toggles
-          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
-          map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+          -- map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
+          -- map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
 
           -- Text object
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
@@ -329,7 +329,8 @@ require('lazy').setup(
     -- require 'kickstart.plugins.autoformat',
     require 'plugins.language',
     require 'plugins.debug',
-    require 'plugins.editor'
+    require 'plugins.editor',
+    require 'plugins.test_suite',
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
     --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping

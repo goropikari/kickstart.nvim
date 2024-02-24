@@ -60,10 +60,13 @@ return {
   {
     "goropikari/chowcho.nvim",
     branch = 'fix',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
     config = function()
       require('chowcho').setup {
         -- Must be a single character. The length of the array is the maximum number of windows that can be moved.
-        labels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"},
+        labels = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" },
         use_exclude_default = true,
         ignore_case = true,
         exclude = function(buf, win)
