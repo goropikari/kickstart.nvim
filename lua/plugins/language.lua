@@ -17,5 +17,5 @@ return {
   },
 
   -- [[golang]]
-  'fatih/vim-go',
+  -- 'fatih/vim-go',
 }

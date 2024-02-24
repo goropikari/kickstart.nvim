@@ -298,6 +298,22 @@ require('lazy').setup(
     },
 
     {
+      -- vimium のような感じでコードジャンプできる
+      "folke/flash.nvim",
+      event = "VeryLazy",
+      ---@type Flash.Config
+      opts = {},
+      -- stylua: ignore
+      keys = {
+        { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+        { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+        { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+        { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+        { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+      },
+    },
+
+    {
       -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
       dependencies = {
@@ -306,13 +322,14 @@ require('lazy').setup(
       build = ':TSUpdate',
     },
 
+
     -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
     --       These are some example plugins that I've included in the kickstart repository.
     --       Uncomment any of the lines below to enable them.
     -- require 'kickstart.plugins.autoformat',
     require 'plugins.language',
     require 'plugins.debug',
-    require 'plugins.colorscheme'
+    require 'plugins.editor'
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
     --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -325,12 +342,25 @@ require('lazy').setup(
 
   -- options
   {
+    checker = {
+      -- automatically check for plugin updates
+      enabled = false,
+      concurrency = nil, ---@type number? set to 1 to check for updates very slowly
+      notify = true,        -- get a notification when new updates are found
+      frequency = 3600,     -- check for updates every hour
+      check_pinned = false, -- check for pinned packages that can't be updated
+    },
+    change_detection = {
+      -- automatically check for config file changes and reload the ui
+      enabled = true,
+      notify = true, -- get a notification when changes are found
+    },
     performance = {
       rtp = {
         disabled_plugins = {
-          "netrw",
-          "netrwPlugin",
-          "netrwSettings",
+          -- "netrw",
+          -- "netrwPlugin",
+          -- "netrwSettings",
           -- "netrwFileHandlers",
         },
       },
@@ -340,6 +370,7 @@ require('lazy').setup(
 
 -- [[ Setting options ]]
 require 'custom.plugins.base'
+require 'custom.plugins.editor'
 
 -- [[ Basic Keymaps ]]
 require 'custom.plugins.keymaps'
