@@ -95,6 +95,7 @@ require('lazy').setup(
         'folke/neodev.nvim',
       },
     },
+    'fatih/vim-go',
 
     {
       -- Autocompletion
@@ -228,12 +229,7 @@ require('lazy').setup(
     {
       'numToStr/Comment.nvim',
       opts = {
-        toggler = {
-          line = '<c-_>',
-        },
-        opleader = {
-          line = '<c-_>',
-        }
+        mappings = false,
       },
     },
 
@@ -366,14 +362,14 @@ require 'custom.plugins.keymaps'
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
--- local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
--- vim.api.nvim_create_autocmd('TextYankPost', {
---   callback = function()
---     vim.highlight.on_yank()
---   end,
---   group = highlight_group,
---   pattern = '*',
--- })
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
 
 -- [[ Configure Telescope ]]
 require 'custom.plugins.telescope'

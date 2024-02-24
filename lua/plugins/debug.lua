@@ -19,6 +19,7 @@ return {
   },
   config = function()
     local dap = require 'dap'
+    local dapgo = require 'dap-go'
     local dapui = require 'dapui'
 
     local go_dap_adapter_name = "delve"
@@ -47,6 +48,7 @@ return {
     vim.keymap.set('n', '<leader>B', function()
       dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
     end, { desc = 'Debug: Set Breakpoint' })
+    vim.keymap.set('n', '<leader>dt', dapgo.debug_test, { desc = '[D]ebug [T]est' })
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
@@ -74,7 +76,7 @@ return {
     vim.keymap.set('n', '<F7>', dapui.toggle, { desc = 'Debug: See last session result.' })
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+    -- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
     -- Install golang specific config
@@ -114,7 +116,7 @@ return {
     -- 個別の config は .vscode/launch.json に書くとプロジェクトごとの設定にできる
     -- 書き方の例は後述
     dap.adapters[go_dap_adapter_name] = function(callback, config)
-      callback({type = 'server', host = config.host, port = config.port })
+      callback({ type = 'server', host = config.host, port = config.port })
     end
     -- dap.adapters.delve = { -- ベタ書きする方法もある
     --   type = 'server',
