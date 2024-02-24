@@ -202,36 +202,6 @@ require('lazy').setup(
     },
 
     {
-      -- Theme inspired by Atom
-      'navarasu/onedark.nvim',
-      priority = 1000,
-      lazy = false,
-      -- config = function()
-      --   require('onedark').setup {
-      --     -- Set a style preset. 'dark' is default.
-      --     style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
-      --   }
-      --   require('onedark').load()
-      -- end,
-    },
-    {
-      "ntk148v/habamax.nvim",
-      dependencies = { "rktjmp/lush.nvim" },
-      priority = 1000,
-      lazy = false,
-      -- config = function()
-      --   vim.cmd('colorscheme habamax.nvim')
-      -- end
-    },
-    {
-      "ellisonleao/gruvbox.nvim",
-      priority = 1000,
-      config = function()
-        vim.cmd('colorscheme gruvbox')
-      end
-    },
-
-    {
       -- Set lualine as statusline
       'nvim-lualine/lualine.nvim',
       -- See `:help lualine.txt`
@@ -362,6 +332,7 @@ require('lazy').setup(
     --       Uncomment any of the lines below to enable them.
     -- require 'kickstart.plugins.autoformat',
     require 'plugins.debug',
+    require 'plugins.colorscheme'
 
     -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
     --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -423,5 +394,5 @@ require 'custom.plugins.nvim_cmp'
 
 -- [[ 競技プログラミング用 ]]
 vim.api.nvim_create_user_command('Make', function()
-  print(vim.fn.system({'make', 'test', 'ARGS=' .. vim.fn.expand('%:r')}))
+  print(vim.fn.system({ 'make', 'test', 'ARGS=' .. vim.fn.expand('%:r') }))
 end, {})
