@@ -9,6 +9,7 @@ return {
 
       -- Add your own debuggers here
       'leoluz/nvim-dap-go',
+      'suketa/nvim-dap-ruby',
     },
   },
 
