@@ -5,6 +5,7 @@ return {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
   },
+  'Mofiqul/vscode.nvim',
 
   {
     -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
@@ -30,6 +31,7 @@ return {
   },
   {
     "goropikari/chowcho.nvim",
+    -- dir = '~/workspace/github/chowcho.nvim',
     branch = 'fix',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
