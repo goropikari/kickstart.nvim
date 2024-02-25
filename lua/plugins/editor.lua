@@ -2,39 +2,10 @@
 return {
   -- colorscheme
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    lazy = true,
-    -- config = function()
-    --   require('onedark').setup {
-    --     -- Set a style preset. 'dark' is default.
-    --     style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
-    --   }
-    --   require('onedark').load()
-    -- end,
-  },
-  {
-    "ntk148v/habamax.nvim",
-    dependencies = { "rktjmp/lush.nvim" },
-    priority = 1000,
-    lazy = true,
-    -- config = function()
-    --   vim.cmd('colorscheme habamax.nvim')
-    -- end
-  },
-  {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
-    config = function()
-      vim.cmd('colorscheme gruvbox')
-    end
   },
-  {
-    "folke/tokyonight.nvim",
-    priority = 1000,
-    lazy = true,
-  },
+
   {
     -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
     -- command が pop up window で表示される
