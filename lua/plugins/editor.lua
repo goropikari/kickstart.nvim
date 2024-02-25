@@ -61,4 +61,6 @@ return {
       require("illuminate").configure(opts)
     end,
   },
+
+  { 'akinsho/toggleterm.nvim', version = "*", config = true },
 }
