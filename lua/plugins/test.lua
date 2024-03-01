@@ -6,6 +6,7 @@ return {
     dependencies = {
       -- Creates a beautiful debugger UI
       'rcarriga/nvim-dap-ui',
+      'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
 
       -- Add your own debuggers here
       'leoluz/nvim-dap-go',
