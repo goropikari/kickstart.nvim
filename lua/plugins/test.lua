@@ -4,9 +4,9 @@ return {
     'mfussenegger/nvim-dap',
     -- NOTE: And you can specify dependencies as well
     dependencies = {
-      -- Creates a beautiful debugger UI
-      'rcarriga/nvim-dap-ui',
+      'rcarriga/nvim-dap-ui',            -- Creates a beautiful debugger UI
       'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
+      'nvim-telescope/telescope-dap.nvim',
 
       -- Add your own debuggers here
       'leoluz/nvim-dap-go',
