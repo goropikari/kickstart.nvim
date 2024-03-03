@@ -297,5 +297,7 @@ require 'custom.plugins.nvim_cmp'
 
 -- [[ 競技プログラミング用 ]]
 vim.api.nvim_create_user_command('Make', function()
+  vim.cmd('messages clear')
   print(vim.fn.system({ 'make', 'test', 'ARGS=' .. vim.fn.expand('%:r') }))
+  vim.cmd('messages')
 end, {})
