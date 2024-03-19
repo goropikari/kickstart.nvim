@@ -7,6 +7,7 @@ return {
       'rcarriga/nvim-dap-ui',            -- Creates a beautiful debugger UI
       'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
       'nvim-telescope/telescope-dap.nvim',
+      'nvim-neotest/nvim-nio',
 
       -- Add your own debuggers here
       'leoluz/nvim-dap-go',
