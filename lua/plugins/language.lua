@@ -15,7 +15,17 @@ return {
       'folke/neodev.nvim',
     },
   },
-
+  {
+    'salkin-mada/openscad.nvim',
+    dependencies = {
+      'L3MON4D3/LuaSnip',
+    },
+    config = function()
+      require('openscad')
+      -- load snippets, note requires
+      vim.g.openscad_load_snippets = true
+    end,
+  },
   -- [[golang]]
   -- 'fatih/vim-go',
 }
