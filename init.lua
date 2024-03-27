@@ -189,11 +189,11 @@ require('lazy').setup(
       end,
     },
 
-    {
-      -- vimium のような感じでコードジャンプできる
-      "folke/flash.nvim",
-      event = "VeryLazy",
-    },
+    -- {
+    --   -- vimium のような感じでコードジャンプできる
+    --   "folke/flash.nvim",
+    --   event = "VeryLazy",
+    -- },
 
     {
       -- Highlight, edit, and navigate code
