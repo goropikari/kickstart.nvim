@@ -3,9 +3,17 @@ return {
   -- colorscheme
   {
     "ellisonleao/gruvbox.nvim",
+  },
+  {
+    'Mofiqul/vscode.nvim',
     priority = 1000,
   },
-  'Mofiqul/vscode.nvim',
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
 
   {
     -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
@@ -62,5 +70,26 @@ return {
     end,
   },
 
+  -- Ctrl-t でターミナルを出す
   { 'akinsho/toggleterm.nvim', version = "*", config = true },
+  -- github review
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup({
+        mappings_disable_default = false,
+        -- mappings = {
+        --   review_thread = {
+        --     toggle_viewed = { lhs = "<leader><space>", desc = "toggle viewer viewed state" },
+        --     goto_file = { lhs = "gf", desc = "go to file" },
+        --   },
+        -- },
+      })
+    end,
+  },
 }
