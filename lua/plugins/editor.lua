@@ -71,7 +71,15 @@ return {
   },
 
   -- Ctrl-t でターミナルを出す
-  { 'akinsho/toggleterm.nvim', version = "*", config = true },
+  {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = function()
+      require('toggleterm').setup({
+        shell = 'bash',
+      })
+    end,
+  },
   -- github review
   {
     'pwntester/octo.nvim',

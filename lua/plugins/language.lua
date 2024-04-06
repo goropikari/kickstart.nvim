@@ -26,6 +26,9 @@ return {
       vim.g.openscad_load_snippets = true
     end,
   },
+  {
+    'neoclide/jsonc.vim'
+  },
   -- [[golang]]
   -- 'fatih/vim-go',
 }
