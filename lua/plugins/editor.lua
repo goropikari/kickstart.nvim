@@ -80,6 +80,10 @@ return {
       })
     end,
   },
+  {
+    -- :FixWhitespace で末端空白を消す
+    'bronson/vim-trailing-whitespace'
+  },
   -- github review
   {
     'pwntester/octo.nvim',
