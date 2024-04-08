@@ -74,11 +74,7 @@ return {
   {
     'akinsho/toggleterm.nvim',
     version = "*",
-    config = function()
-      require('toggleterm').setup({
-        shell = 'bash',
-      })
-    end,
+    config = true,
   },
   {
     -- :FixWhitespace で末端空白を消す
