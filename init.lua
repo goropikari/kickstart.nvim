@@ -161,7 +161,7 @@ require('lazy').setup(
     {
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v3.x",
-      cmd = 'Neotree',
+      -- cmd = 'Neotree',
       dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -188,6 +188,39 @@ require('lazy').setup(
           end
         end
       end,
+      config = function()
+        require('neo-tree').setup({
+          sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+          open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
+          hijack_netrw_behavior = "disabled",
+          filesystem = {
+            bind_to_cwd = false,
+            follow_current_file = { enabled = true },
+            use_libuv_file_watcher = true,
+            filtered_items = {
+              hide_dotfiles = false,
+            },
+          },
+          window = {
+            mappings = {
+              ["<space>"] = "none",
+              ["Y"] = function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                vim.fn.setreg("+", path, "c")
+              end,
+            },
+          },
+          default_component_configs = {
+            indent = {
+              with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+              expander_collapsed = "",
+              expander_expanded = "",
+              expander_highlight = "NeoTreeExpander",
+            },
+          },
+        })
+      end
     },
 
     -- {
@@ -241,18 +274,18 @@ require('lazy').setup(
     change_detection = {
       -- automatically check for config file changes and reload the ui
       enabled = true,
-      notify = true, -- get a notification when changes are found
+      notify = false, -- get a notification when changes are found
     },
     performance = {
       rtp = {
         disabled_plugins = {
-          -- "netrw",
-          -- "netrwPlugin",
-          -- "netrwSettings",
+          "netrw",
+          "netrwPlugin",
+          "netrwSettings",
           "gzip",
           -- "matchit",
           -- "matchparen",
-          -- "netrwPlugin",
+          "netrwPlugin",
           "tarPlugin",
           "tohtml",
           "tutor",

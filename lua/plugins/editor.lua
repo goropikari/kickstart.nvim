@@ -100,4 +100,10 @@ return {
       })
     end,
   },
+
+  -- hex を色を付けて表示する
+  -- :ColorizerToggle で有効になる
+  {
+    'norcalli/nvim-colorizer.lua'
+  },
 }
