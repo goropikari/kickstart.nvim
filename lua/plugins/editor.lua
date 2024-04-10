@@ -69,6 +69,10 @@ return {
       require("illuminate").configure(opts)
     end,
   },
+  -- cursor 下と同じ文字列に下線を引く'
+  {
+    'xiyaowong/nvim-cursorword',
+  },
 
   -- Ctrl-t でターミナルを出す
   {
@@ -80,6 +84,7 @@ return {
     -- :FixWhitespace で末端空白を消す
     'bronson/vim-trailing-whitespace'
   },
+
   -- github review
   {
     'pwntester/octo.nvim',
@@ -105,5 +110,81 @@ return {
   -- :ColorizerToggle で有効になる
   {
     'norcalli/nvim-colorizer.lua'
+  },
+
+  -- scrollbar
+  {
+    'petertriho/nvim-scrollbar',
+    config = function()
+      require("scrollbar").setup()
+    end
+  },
+
+  -- buffer を tab で表示する
+  {
+    'romgrk/barbar.nvim',
+    dependencies = {
+      'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+    },
+    init = function() vim.g.barbar_auto_setup = false end,
+    opts = {
+      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+      -- animation = true,
+      -- insert_at_start = true,
+      -- …etc.
+    },
+    version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  },
+
+
+  -- {
+  --   'echasnovski/mini.surround',
+  --   version = '*',
+  --   config = function()
+  --     require('mini.surround').setup({
+  --       mappings = {
+  --         add = 'sa',            -- Add surrounding in Normal and Visual modes
+  --         delete = 'sd',         -- Delete surrounding
+  --         find = 'sf',           -- Find surrounding (to the right)
+  --         find_left = 'sF',      -- Find surrounding (to the left)
+  --         highlight = 'sh',      -- Highlight surrounding
+  --         replace = 'sr',        -- Replace surrounding
+  --         update_n_lines = 'sn', -- Update `n_lines`
+  --
+  --         suffix_last = 'l',     -- Suffix to search with "prev" method
+  --         suffix_next = 'n',     -- Suffix to search with "next" method
+  --       },
+  --     })
+  --   end
+  -- },
+
+  -- Add/delete/change surrounding pairs
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        keymaps = {
+          -- default keymap を無効化
+          insert          = false,
+          insert_line     = false,
+          normal          = false,
+          normal_cur      = false,
+          normal_line     = false,
+          normal_cur_line = false,
+          visual          = false,
+          visual_line     = false,
+          delete          = false,
+          change          = false,
+          change_line     = false,
+        },
+      })
+    end
+  },
+
+  {
+    'junegunn/vim-easy-align'
   },
 }
