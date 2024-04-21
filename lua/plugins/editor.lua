@@ -78,7 +78,10 @@ return {
   {
     'akinsho/toggleterm.nvim',
     version = "*",
-    config = true,
+    -- config = true,
+    opts = {
+      open_mapping = [[<c-\>]],
+    },
   },
   {
     -- :FixWhitespace で末端空白を消す
@@ -186,5 +189,22 @@ return {
 
   {
     'junegunn/vim-easy-align'
+  },
+
+  {
+    -- ssh, docker 内で copy したものをホストの clipboard に入れる
+    'ojroques/nvim-osc52',
+  },
+  {
+    'goropikari/local-container.nvim',
+    -- dir = '~/workspace/github/local-container.nvim',
+    dependencies = {
+      'ojroques/nvim-osc52'
+    },
+    opts = {
+      neovim = {
+        remote_port = 60002,
+      }
+    }
   },
 }
