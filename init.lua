@@ -1,46 +1,3 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
-
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 vim.o.shell = 'bash'
@@ -62,106 +19,48 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
 require('lazy').setup(
   {
-    -- NOTE: First, some plugins that don't require any configuration
-
-    -- Git related plugins
-    'tpope/vim-fugitive',
-    -- 'tpope/vim-rhubarb',
-
-    -- Detect tabstop and shiftwidth automatically
-    'tpope/vim-sleuth',
-
+    -- colorscheme
     {
-      -- Autocompletion
-      'hrsh7th/nvim-cmp',
-      dependencies = {
-        -- Snippet Engine & its associated nvim-cmp source
-        {
-          'L3MON4D3/LuaSnip',
-          build = (function()
-            -- Build Step is needed for regex support in snippets
-            -- This step is not supported in many windows environments
-            -- Remove the below condition to re-enable on windows
-            if vim.fn.has 'win32' == 1 then
-              return
-            end
-            return 'make install_jsregexp'
-          end)(),
-        },
-        'saadparwaiz1/cmp_luasnip',
-
-        -- Adds LSP completion capabilities
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-path',
-
-        -- Adds a number of user-friendly snippets
-        'rafamadriz/friendly-snippets',
-      },
+      "ellisonleao/gruvbox.nvim",
+    },
+    {
+      'Mofiqul/vscode.nvim',
+      priority = 1000,
+    },
+    {
+      "folke/tokyonight.nvim",
+      lazy = false,
+      priority = 1000,
+      opts = {},
     },
 
-    -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim', opts = {} },
     {
-      -- Adds git related signs to the gutter, as well as utilities for managing changes
-      'lewis6991/gitsigns.nvim',
+      -- Highlight, edit, and navigate code
+      'nvim-treesitter/nvim-treesitter',
       dependencies = {
-        'petertriho/nvim-scrollbar'
+        'nvim-treesitter/nvim-treesitter-textobjects',
       },
-      config = function()
-        require('gitsigns').setup()
-        require("scrollbar.handlers.gitsigns").setup()
-      end
+      build = ':TSUpdate',
+    },
+
+    {
+      -- Detect tabstop and shiftwidth automatically
+      'tpope/vim-sleuth',
     },
 
     {
       -- Set lualine as statusline
       'nvim-lualine/lualine.nvim',
-      -- See `:help lualine.txt`
     },
 
     {
       -- Add indentation guides even on blank lines
       'lukas-reineke/indent-blankline.nvim',
-      -- Enable `lukas-reineke/indent-blankline.nvim`
       -- See `:help ibl`
       main = 'ibl',
       opts = {},
-    },
-
-    -- Ctrl-/ でコメント
-    {
-      'numToStr/Comment.nvim',
-      opts = {
-        mappings = false,
-      },
-    },
-
-    -- Fuzzy Finder (files, lsp, etc)
-    {
-      'nvim-telescope/telescope.nvim',
-      branch = '0.1.x',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-        -- Only load if `make` is available. Make sure you have the system
-        -- requirements installed.
-        {
-          'nvim-telescope/telescope-fzf-native.nvim',
-          -- NOTE: If you are having trouble with this installation,
-          --       refer to the README for telescope-fzf-native for more instructions.
-          build = 'make',
-          cond = function()
-            return vim.fn.executable 'make' == 1
-          end,
-        },
-      },
     },
 
     -- sidebar file explorer
@@ -230,36 +129,346 @@ require('lazy').setup(
       end
     },
 
+    {
+      -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
+      -- command が pop up window で表示される
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      opts = {
+        -- add any options here
+      },
+      dependencies = {
+        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+        "MunifTanjim/nui.nvim",
+        -- OPTIONAL:
+        --   `nvim-notify` is only needed, if you want to use the notification view.
+        --   If not available, we use `mini` as the fallback
+        -- "rcarriga/nvim-notify",
+      },
+    },
+
+    {
+      -- vim.ui.input を cursor で選択できるようにする
+      'stevearc/dressing.nvim',
+      opts = {},
+    },
+
+    -- scrollbar
+    {
+      'petertriho/nvim-scrollbar',
+      config = function()
+        require("scrollbar").setup()
+      end
+    },
+
+    -- buffer を tab で表示する
+    {
+      'romgrk/barbar.nvim',
+      dependencies = {
+        'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+        'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+      },
+      init = function() vim.g.barbar_auto_setup = false end,
+      opts = {
+        -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+        -- animation = true,
+        -- insert_at_start = true,
+        -- …etc.
+      },
+      version = '^1.0.0', -- optional: only update when a new 1.x version is released
+    },
+
+    -- cursor 下と同じ文字列に下線を引く'
+    {
+      'xiyaowong/nvim-cursorword',
+    },
+
+    {
+      -- Ctrl-t でターミナルを出す
+      'akinsho/toggleterm.nvim',
+      version = "*",
+      -- config = true,
+      opts = {
+        open_mapping = [[<c-\>]],
+      },
+    },
+
+    {
+      -- cursor 下と同じ文字のものをハイライトする
+      "RRethy/vim-illuminate",
+      opts = {
+        delay = 200,
+        large_file_cutoff = 2000,
+        large_file_overrides = {
+          providers = { 'lsp', 'treesitter', 'regex' },
+        },
+      },
+      config = function(_, opts)
+        require("illuminate").configure(opts)
+      end,
+    },
+
     -- {
     --   -- vimium のような感じでコードジャンプできる
     --   "folke/flash.nvim",
     --   event = "VeryLazy",
     -- },
 
+    -- Fuzzy Finder (files, lsp, etc)
     {
-      -- Highlight, edit, and navigate code
-      'nvim-treesitter/nvim-treesitter',
+      'nvim-telescope/telescope.nvim',
+      branch = '0.1.x',
       dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
+        'nvim-lua/plenary.nvim',
+        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+        -- Only load if `make` is available. Make sure you have the system
+        -- requirements installed.
+        {
+          'nvim-telescope/telescope-fzf-native.nvim',
+          -- NOTE: If you are having trouble with this installation,
+          --       refer to the README for telescope-fzf-native for more instructions.
+          build = 'make',
+          cond = function()
+            return vim.fn.executable 'make' == 1
+          end,
+        },
       },
-      build = ':TSUpdate',
     },
 
-    -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
-    --       These are some example plugins that I've included in the kickstart repository.
-    --       Uncomment any of the lines below to enable them.
-    -- require 'kickstart.plugins.autoformat',
-    require 'plugins.editor',
-    require 'plugins.language',
-    require 'plugins.test',
+    {
+      "goropikari/chowcho.nvim",
+      -- dir = '~/workspace/github/chowcho.nvim',
+      branch = 'fix',
+      dependencies = {
+        'nvim-tree/nvim-web-devicons',
+      },
+    },
 
-    -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-    --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
-    --    up-to-date with whatever is in the kickstart repo.
-    --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-    --
-    --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-    -- { import = 'custom.plugins' },
+    -- Useful plugin to show you pending keybinds.
+    {
+      'folke/which-key.nvim',
+      opts = {},
+    },
+
+    {
+      -- ssh, docker 内で copy したものをホストの clipboard に入れる
+      'ojroques/nvim-osc52',
+    },
+
+    {
+      -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
+      'Wansmer/treesj',
+      -- keys = { '<leader>m' },
+      dependencies = { 'nvim-treesitter/nvim-treesitter' },
+      keys = { { '<leader>m', function() require('treesj').toggle() end, desc = "split/join collections" } },
+      opts = {
+        max_join_length = 1000,
+      },
+    },
+
+    -- Add/delete/change surrounding pairs
+    {
+      "kylechui/nvim-surround",
+      version = "*", -- Use for stability; omit to use `main` branch for the latest features
+      event = "VeryLazy",
+      config = function()
+        require("nvim-surround").setup({
+          keymaps = {
+            -- default keymap を無効化
+            insert          = false,
+            insert_line     = false,
+            normal          = false,
+            normal_cur      = false,
+            normal_line     = false,
+            normal_cur_line = false,
+            visual          = false,
+            visual_line     = false,
+            delete          = false,
+            change          = false,
+            change_line     = false,
+          },
+        })
+      end
+    },
+
+    {
+      'junegunn/vim-easy-align'
+    },
+
+    {
+      -- :FixWhitespace で末端空白を消す
+      'bronson/vim-trailing-whitespace'
+    },
+
+    -- Ctrl-/ でコメント
+    {
+      'numToStr/Comment.nvim',
+      opts = {
+        mappings = false,
+      },
+    },
+
+    {
+      -- Autocompletion
+      'hrsh7th/nvim-cmp',
+      dependencies = {
+        -- Snippet Engine & its associated nvim-cmp source
+        {
+          'L3MON4D3/LuaSnip',
+          build = (function()
+            -- Build Step is needed for regex support in snippets
+            -- This step is not supported in many windows environments
+            -- Remove the below condition to re-enable on windows
+            if vim.fn.has 'win32' == 1 then
+              return
+            end
+            return 'make install_jsregexp'
+          end)(),
+        },
+        'saadparwaiz1/cmp_luasnip',
+
+        -- Adds LSP completion capabilities
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-path',
+
+        -- Adds a number of user-friendly snippets
+        'rafamadriz/friendly-snippets',
+      },
+    },
+
+
+
+
+
+
+    {
+      -- Git related plugins
+      'tpope/vim-fugitive',
+    },
+
+    {
+      -- Adds git related signs to the gutter, as well as utilities for managing changes
+      'lewis6991/gitsigns.nvim',
+      dependencies = {
+        'petertriho/nvim-scrollbar'
+      },
+      config = function()
+        require('gitsigns').setup()
+        require("scrollbar.handlers.gitsigns").setup()
+      end
+    },
+
+    -- github review
+    {
+      'pwntester/octo.nvim',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope.nvim',
+        'nvim-tree/nvim-web-devicons',
+      },
+      config = function()
+        require "octo".setup({
+          mappings_disable_default = false,
+          -- mappings = {
+          --   review_thread = {
+          --     toggle_viewed = { lhs = "<leader><space>", desc = "toggle viewer viewed state" },
+          --     goto_file = { lhs = "gf", desc = "go to file" },
+          --   },
+          -- },
+        })
+      end,
+    },
+
+    {
+      -- LSP Configuration & Plugins
+      'neovim/nvim-lspconfig',
+      dependencies = {
+        -- Automatically install LSPs to stdpath for neovim
+        { 'williamboman/mason.nvim', config = true },
+        'williamboman/mason-lspconfig.nvim',
+
+        -- Useful status updates for LSP
+        -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+        { 'j-hui/fidget.nvim',       opts = {} },
+
+        -- Additional lua configuration, makes nvim stuff amazing!
+        'folke/neodev.nvim',
+      },
+    },
+
+    -- hex を色を付けて表示する
+    -- :ColorizerToggle で有効になる
+    {
+      'norcalli/nvim-colorizer.lua'
+    },
+
+    {
+      'salkin-mada/openscad.nvim',
+      dependencies = {
+        'L3MON4D3/LuaSnip',
+      },
+      config = function()
+        require('openscad')
+        -- load snippets, note requires
+        vim.g.openscad_load_snippets = true
+      end,
+    },
+
+    {
+      'neoclide/jsonc.vim'
+    },
+
+    -- markdown
+    -- :MarkdownPreview で browser で markdown が表示される
+    {
+      "iamcco/markdown-preview.nvim",
+      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+      ft = { "markdown" },
+      build = function() vim.fn["mkdp#util#install"]() end,
+    },
+
+    {
+      'mfussenegger/nvim-dap',
+      dependencies = {
+        'rcarriga/nvim-dap-ui',            -- Creates a beautiful debugger UI
+        'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
+        'nvim-telescope/telescope-dap.nvim',
+        'nvim-neotest/nvim-nio',
+
+        -- Add your own debuggers here
+        'leoluz/nvim-dap-go',
+        'suketa/nvim-dap-ruby',
+      },
+    },
+
+    {
+      "nvim-neotest/neotest",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "antoinemadec/FixCursorHold.nvim",
+        "nvim-treesitter/nvim-treesitter",
+
+        -- language adapter
+        -- "nvim-neotest/neotest-go",
+        {
+          url = "https://github.com/wwnbb/neotest-go",
+          branch = "feat/dap-support",
+        },
+      },
+    },
+
+    {
+      'goropikari/local-container.nvim',
+      -- dir = '~/workspace/github/local-container.nvim',
+      dependencies = {
+        'ojroques/nvim-osc52'
+      },
+      opts = {
+        neovim = {
+          remote_port = 60002,
+        }
+      }
+    },
   },
 
   -- options
@@ -297,43 +506,7 @@ require('lazy').setup(
   }
 )
 
--- [[ Setting options ]]
-require 'custom.plugins.base'
-require 'custom.plugins.editor'
-
--- [[ Basic Keymaps ]]
-require 'custom.plugins.keymaps'
-
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
-
--- [[ Configure Telescope ]]
-require 'custom.plugins.telescope'
-
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-require 'custom.plugins.treesitter'
-
--- [[ Configure LSP ]]
-require 'custom.plugins.lsp'
-
--- [[ Configure Test ]]
-require 'custom.plugins.test'
-
--- [[ Configure nvim-cmp ]]
-require 'custom.plugins.nvim_cmp'
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+require('custom.plugins')
 
 -- [[ 競技プログラミング用 ]]
 vim.api.nvim_create_user_command('Make', function()
