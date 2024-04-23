@@ -1,6 +1,7 @@
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 vim.o.shell = 'bash'
+vim.o.exrc = true -- current directory の .nvim.lua を読み込む
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
