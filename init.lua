@@ -465,6 +465,9 @@ require('lazy').setup(
           path = 'devcontainer',
           args = {
             '--workspace-folder=.',
+            '--skip-post-create',
+            '--skip-non-blocking-commands',
+            '--skip-post-attach',
             '--mount type=bind,source=$(pwd),target=/workspaces/$(dirname $(pwd))',
             '--mount type=bind,source=$HOME/.config/nvim,target=/home/vscode/.config/nvim',
             '--mount type=bind,source=$HOME/.aws,target=/home/vscode/.aws',
