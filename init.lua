@@ -335,11 +335,6 @@ require('lazy').setup(
       },
     },
 
-
-
-
-
-
     {
       -- Git related plugins
       'tpope/vim-fugitive',
@@ -457,16 +452,26 @@ require('lazy').setup(
     },
 
     {
-      'goropikari/local-container.nvim',
-      -- dir = '~/workspace/github/local-container.nvim',
+      'goropikari/local-devcontainer.nvim',
+      -- dir = '~/workspace/github/local-devcontainer.nvim',
       dependencies = {
-        'ojroques/nvim-osc52'
+        'ojroques/nvim-osc52',
+        -- dir = '~/workspace/github/termitary-mod.nvim',
+        'goropikari/termitary-mod.nvim',
       },
       opts = {
-        neovim = {
-          remote_port = 60002,
-        }
-      }
+        -- cmd = 'alacritty -e'
+        devcontainer = {
+          path = 'devcontainer',
+          args = {
+            '--workspace-folder=.',
+            '--mount type=bind,source=$(pwd),target=/workspaces/$(dirname $(pwd))',
+            '--mount type=bind,source=$HOME/.config/nvim,target=/home/vscode/.config/nvim',
+            '--mount type=bind,source=$HOME/.aws,target=/home/vscode/.aws',
+            [[--additional-features='{"ghcr.io/goropikari/devcontainer-feature/neovim:1": {}, "ghcr.io/devcontainers/features/sshd:1": {}, "ghcr.io/devcontainers/features/github-cli:1": {}}']],
+          }
+        },
+      },
     },
   },
 
@@ -513,3 +518,9 @@ vim.api.nvim_create_user_command('Make', function()
   print(vim.fn.system({ 'make', 'test', 'ARGS=' .. vim.fn.expand('%:r') }))
   vim.cmd('messages')
 end, {})
+
+vim.api.nvim_create_user_command(
+  "DevContainerUp",
+  require('local-devcontainer').up,
+  {}
+)
