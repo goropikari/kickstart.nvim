@@ -56,12 +56,20 @@ require('lazy').setup(
       'nvim-lualine/lualine.nvim',
     },
 
+    -- {
+    --   -- Add indentation guides even on blank lines
+    --   'lukas-reineke/indent-blankline.nvim',
+    --   -- See `:help ibl`
+    --   main = 'ibl',
+    --   opts = {},
+    -- },
+
     {
-      -- Add indentation guides even on blank lines
-      'lukas-reineke/indent-blankline.nvim',
-      -- See `:help ibl`
-      main = 'ibl',
-      opts = {},
+      "shellRaining/hlchunk.nvim",
+      event = { "UIEnter" },
+      config = function()
+        require("hlchunk").setup({})
+      end
     },
 
     -- sidebar file explorer
@@ -411,6 +419,9 @@ require('lazy').setup(
     {
       'neoclide/jsonc.vim'
     },
+    {
+      "imsnif/kdl.vim"
+    },
 
     -- markdown
     -- :MarkdownPreview で browser で markdown が表示される
@@ -461,6 +472,7 @@ require('lazy').setup(
       },
       opts = {
         -- cmd = 'alacritty -e'
+        cmd = 'zellij run -- ',
         devcontainer = {
           path = 'devcontainer',
           args = {
