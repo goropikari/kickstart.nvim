@@ -472,7 +472,7 @@ require('lazy').setup(
       },
       opts = {
         -- cmd = 'alacritty -e'
-        cmd = 'zellij run -- ',
+        -- cmd = 'zellij run -- ',
         devcontainer = {
           path = 'devcontainer',
           args = {
