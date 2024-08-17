@@ -398,6 +398,14 @@ require('lazy').setup(
       },
     },
 
+    -- Mason dap
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      dependencies = {
+        "williamboman/mason.nvim",
+      }
+    },
+
     -- hex を色を付けて表示する
     -- :ColorizerToggle で有効になる
     {
