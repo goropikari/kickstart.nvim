@@ -461,6 +461,7 @@ require('lazy').setup(
         -- Add your own debuggers here
         'leoluz/nvim-dap-go',
         'suketa/nvim-dap-ruby',
+        'mfussenegger/nvim-dap-python',
       },
     },
 
