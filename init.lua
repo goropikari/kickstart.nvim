@@ -56,20 +56,18 @@ require('lazy').setup(
       'nvim-lualine/lualine.nvim',
     },
 
-    -- {
-    --   -- Add indentation guides even on blank lines
-    --   'lukas-reineke/indent-blankline.nvim',
-    --   -- See `:help ibl`
-    --   main = 'ibl',
-    --   opts = {},
-    -- },
-
+    -- indent を見やすくする
     {
       "shellRaining/hlchunk.nvim",
-      event = { "UIEnter" },
-      config = function()
-        require("hlchunk").setup({})
-      end
+      event = { "BufReadPre", "BufNewFile" },
+      opts = {
+        chunk = {
+          enable = true,
+        },
+        indent = {
+          enable = true,
+        }
+      },
     },
 
     -- sidebar file explorer
@@ -103,40 +101,38 @@ require('lazy').setup(
           end
         end
       end,
-      config = function()
-        require('neo-tree').setup({
-          sources = { "filesystem", "buffers", "git_status", "document_symbols" },
-          open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
-          hijack_netrw_behavior = "disabled",
-          filesystem = {
-            bind_to_cwd = false,
-            follow_current_file = { enabled = true },
-            use_libuv_file_watcher = true,
-            filtered_items = {
-              hide_dotfiles = false,
-            },
+      opts = {
+        sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+        open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
+        hijack_netrw_behavior = "disabled",
+        filesystem = {
+          bind_to_cwd = false,
+          follow_current_file = { enabled = true },
+          use_libuv_file_watcher = true,
+          filtered_items = {
+            hide_dotfiles = false,
           },
-          window = {
-            position = 'float',
-            mappings = {
-              ["<space>"] = "none",
-              ["Y"] = function(state)
-                local node = state.tree:get_node()
-                local path = node:get_id()
-                vim.fn.setreg("+", path, "c")
-              end,
-            },
+        },
+        window = {
+          position = 'float',
+          mappings = {
+            ["<space>"] = "none",
+            ["Y"] = function(state)
+              local node = state.tree:get_node()
+              local path = node:get_id()
+              vim.fn.setreg("+", path, "c")
+            end,
           },
-          default_component_configs = {
-            indent = {
-              with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-              expander_collapsed = "",
-              expander_expanded = "",
-              expander_highlight = "NeoTreeExpander",
-            },
+        },
+        default_component_configs = {
+          indent = {
+            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = "",
+            expander_expanded = "",
+            expander_highlight = "NeoTreeExpander",
           },
-        })
-      end
+        },
+      }
     },
 
     {
@@ -163,14 +159,6 @@ require('lazy').setup(
       opts = {},
     },
 
-    -- scrollbar
-    {
-      'petertriho/nvim-scrollbar',
-      config = function()
-        require("scrollbar").setup()
-      end
-    },
-
     -- buffer を tab で表示する
     {
       'romgrk/barbar.nvim',
@@ -194,7 +182,6 @@ require('lazy').setup(
       -- Ctrl-t でターミナルを出す
       'akinsho/toggleterm.nvim',
       version = "*",
-      -- config = true,
       opts = {
         open_mapping = [[<c-\>]],
       },
@@ -278,24 +265,22 @@ require('lazy').setup(
       "kylechui/nvim-surround",
       version = "*", -- Use for stability; omit to use `main` branch for the latest features
       event = "VeryLazy",
-      config = function()
-        require("nvim-surround").setup({
-          keymaps = {
-            -- default keymap を無効化
-            insert          = false,
-            insert_line     = false,
-            normal          = false,
-            normal_cur      = false,
-            normal_line     = false,
-            normal_cur_line = false,
-            visual          = false,
-            visual_line     = false,
-            delete          = false,
-            change          = false,
-            change_line     = false,
-          },
-        })
-      end
+      opts = {
+        keymaps = {
+          -- default keymap を無効化
+          insert          = false,
+          insert_line     = false,
+          normal          = false,
+          normal_cur      = false,
+          normal_line     = false,
+          normal_cur_line = false,
+          visual          = false,
+          visual_line     = false,
+          delete          = false,
+          change          = false,
+          change_line     = false,
+        },
+      }
     },
 
     {
@@ -354,10 +339,7 @@ require('lazy').setup(
       dependencies = {
         'petertriho/nvim-scrollbar'
       },
-      config = function()
-        require('gitsigns').setup()
-        require("scrollbar.handlers.gitsigns").setup()
-      end
+      opts = {},
     },
 
     -- github review
@@ -368,17 +350,9 @@ require('lazy').setup(
         'nvim-telescope/telescope.nvim',
         'nvim-tree/nvim-web-devicons',
       },
-      config = function()
-        require "octo".setup({
-          mappings_disable_default = false,
-          -- mappings = {
-          --   review_thread = {
-          --     toggle_viewed = { lhs = "<leader><space>", desc = "toggle viewer viewed state" },
-          --     goto_file = { lhs = "gf", desc = "go to file" },
-          --   },
-          -- },
-        })
-      end,
+      opts = {
+        mappings_disable_default = false,
+      }
     },
 
     {
