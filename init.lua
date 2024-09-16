@@ -36,7 +36,6 @@ require('lazy').setup(
       priority = 1000,
       opts = {},
     },
-
     {
       -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
@@ -45,19 +44,12 @@ require('lazy').setup(
       },
       build = ':TSUpdate',
     },
-
-    {
-      -- Detect tabstop and shiftwidth automatically
-      'tpope/vim-sleuth',
-    },
-
     {
       -- Set lualine as statusline
       'nvim-lualine/lualine.nvim',
     },
-
-    -- indent を見やすくする
     {
+      -- indent を見やすくする
       "shellRaining/hlchunk.nvim",
       event = { "BufReadPre", "BufNewFile" },
       opts = {
@@ -69,9 +61,8 @@ require('lazy').setup(
         }
       },
     },
-
-    -- sidebar file explorer
     {
+      -- sidebar file explorer
       "nvim-neo-tree/neo-tree.nvim",
       branch = "v3.x",
       -- cmd = 'Neotree',
@@ -134,7 +125,6 @@ require('lazy').setup(
         },
       }
     },
-
     {
       -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
       -- command が pop up window で表示される
@@ -152,15 +142,13 @@ require('lazy').setup(
         -- "rcarriga/nvim-notify",
       },
     },
-
     {
       -- vim.ui.input を cursor で選択できるようにする
       'stevearc/dressing.nvim',
       opts = {},
     },
-
-    -- buffer を tab で表示する
     {
+      -- buffer を tab で表示する
       'romgrk/barbar.nvim',
       dependencies = {
         'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
@@ -172,12 +160,10 @@ require('lazy').setup(
       },
       version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
-
-    -- cursor 下と同じ文字列に下線を引く'
     {
+      -- cursor 下と同じ文字列に下線を引く'
       'xiyaowong/nvim-cursorword',
     },
-
     {
       -- Ctrl-t でターミナルを出す
       'akinsho/toggleterm.nvim',
@@ -186,7 +172,6 @@ require('lazy').setup(
         open_mapping = [[<c-\>]],
       },
     },
-
     {
       -- cursor 下と同じ文字のものをハイライトする
       "RRethy/vim-illuminate",
@@ -201,15 +186,8 @@ require('lazy').setup(
         require("illuminate").configure(opts)
       end,
     },
-
-    -- {
-    --   -- vimium のような感じでコードジャンプできる
-    --   "folke/flash.nvim",
-    --   event = "VeryLazy",
-    -- },
-
-    -- Fuzzy Finder (files, lsp, etc)
     {
+      -- Fuzzy Finder (files, lsp, etc)
       'nvim-telescope/telescope.nvim',
       branch = '0.1.x',
       dependencies = {
@@ -228,7 +206,6 @@ require('lazy').setup(
         },
       },
     },
-
     {
       "goropikari/chowcho.nvim",
       -- dir = '~/workspace/github/chowcho.nvim',
@@ -237,18 +214,15 @@ require('lazy').setup(
         'nvim-tree/nvim-web-devicons',
       },
     },
-
-    -- Useful plugin to show you pending keybinds.
     {
+      -- Useful plugin to show you pending keybinds.
       'folke/which-key.nvim',
       opts = {},
     },
-
     {
       -- ssh, docker 内で copy したものをホストの clipboard に入れる
       'ojroques/nvim-osc52',
     },
-
     {
       -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
       'Wansmer/treesj',
@@ -259,9 +233,8 @@ require('lazy').setup(
         max_join_length = 1000,
       },
     },
-
-    -- Add/delete/change surrounding pairs
     {
+      -- Add/delete/change surrounding pairs
       "kylechui/nvim-surround",
       version = "*", -- Use for stability; omit to use `main` branch for the latest features
       event = "VeryLazy",
@@ -282,24 +255,20 @@ require('lazy').setup(
         },
       }
     },
-
     {
       'junegunn/vim-easy-align'
     },
-
     {
       -- :FixWhitespace で末端空白を消す
       'bronson/vim-trailing-whitespace'
     },
-
-    -- Ctrl-/ でコメント
     {
+      -- Ctrl-/ でコメント
       'numToStr/Comment.nvim',
       opts = {
         mappings = false,
       },
     },
-
     {
       -- Autocompletion
       'hrsh7th/nvim-cmp',
@@ -327,12 +296,10 @@ require('lazy').setup(
         'rafamadriz/friendly-snippets',
       },
     },
-
     {
       -- Git related plugins
       'tpope/vim-fugitive',
     },
-
     {
       -- Adds git related signs to the gutter, as well as utilities for managing changes
       'lewis6991/gitsigns.nvim',
@@ -341,9 +308,8 @@ require('lazy').setup(
       },
       opts = {},
     },
-
-    -- github review
     {
+      -- github review
       'pwntester/octo.nvim',
       dependencies = {
         'nvim-lua/plenary.nvim',
@@ -354,7 +320,6 @@ require('lazy').setup(
         mappings_disable_default = false,
       }
     },
-
     {
       -- LSP Configuration & Plugins
       'neovim/nvim-lspconfig',
@@ -371,21 +336,18 @@ require('lazy').setup(
         'folke/neodev.nvim',
       },
     },
-
-    -- Mason dap
     {
+      -- Mason dap
       "jay-babu/mason-nvim-dap.nvim",
       dependencies = {
         "williamboman/mason.nvim",
       }
     },
-
-    -- hex を色を付けて表示する
-    -- :ColorizerToggle で有効になる
     {
+      -- hex を色を付けて表示する
+      -- :ColorizerToggle で有効になる
       'norcalli/nvim-colorizer.lua'
     },
-
     {
       'salkin-mada/openscad.nvim',
       dependencies = {
@@ -397,17 +359,15 @@ require('lazy').setup(
         vim.g.openscad_load_snippets = true
       end,
     },
-
     {
       'neoclide/jsonc.vim'
     },
     {
       "imsnif/kdl.vim"
     },
-
-    -- markdown
-    -- :MarkdownPreview で browser で markdown が表示される
     {
+      -- markdown
+      -- :MarkdownPreview で browser で markdown が表示される
       "iamcco/markdown-preview.nvim",
       cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
       ft = { "markdown" },
@@ -423,7 +383,6 @@ require('lazy').setup(
         if vim.fn.executable "npx" then vim.g.mkdp_filetypes = { "markdown" } end
       end,
     },
-
     {
       'mfussenegger/nvim-dap',
       dependencies = {
@@ -438,7 +397,6 @@ require('lazy').setup(
         'mfussenegger/nvim-dap-python',
       },
     },
-
     {
       "nvim-neotest/neotest",
       dependencies = {
@@ -454,7 +412,6 @@ require('lazy').setup(
         },
       },
     },
-
     {
       'goropikari/local-devcontainer.nvim',
       -- dir = '~/workspace/github/local-devcontainer.nvim',
@@ -464,7 +421,7 @@ require('lazy').setup(
         'goropikari/termitary-mod.nvim',
       },
       opts = {
-        -- cmd = 'alacritty -e'
+        -- cmd = 'alacritty -e',
         -- cmd = 'zellij run -- ',
         devcontainer = {
           path = 'devcontainer',
