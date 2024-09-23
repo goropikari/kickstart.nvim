@@ -509,7 +509,11 @@ require('lazy').setup(
             dap.listeners.before.event_exited['dapui_config'] = dapui.close
           end,
         },
-        'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
+        {
+          -- code 中に変数の値を表示する
+          'theHamsta/nvim-dap-virtual-text',
+          opts = {},
+        },
         'nvim-telescope/telescope-dap.nvim',
       },
     },
