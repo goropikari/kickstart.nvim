@@ -6,16 +6,16 @@ vim.o.exrc = true -- current directory の .nvim.lua を読み込む
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
+  vim.fn.system({
     'git',
     'clone',
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
     '--branch=stable', -- latest stable release
     lazypath,
-  }
+  })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -42,7 +42,7 @@ require('lazy').setup(
         },
       },
       init = function()
-        vim.cmd 'colorscheme gruvbox'
+        vim.cmd('colorscheme gruvbox')
       end,
     },
     {
@@ -57,7 +57,7 @@ require('lazy').setup(
         -- See `:help nvim-treesitter`
         -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
         vim.defer_fn(function()
-          require('nvim-treesitter.configs').setup {
+          require('nvim-treesitter.configs').setup({
             -- Add languages to be installed here that you want installed for treesitter
             ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'ruby' },
 
@@ -124,7 +124,7 @@ require('lazy').setup(
                 },
               },
             },
-          }
+          })
         end, 0)
       end,
     },
@@ -176,19 +176,19 @@ require('lazy').setup(
         {
           '<c-e>', -- Ctrl-e で neo-tree の表示切り替え
           function()
-            require('neo-tree.command').execute { toggle = true }
+            require('neo-tree.command').execute({ toggle = true })
           end,
           desc = 'Explorer NeoTree',
         },
       },
       deactivate = function()
-        vim.cmd [[Neotree close]]
+        vim.cmd([[Neotree close]])
       end,
       init = function()
         if vim.fn.argc(-1) == 1 then
           local stat = vim.loop.fs_stat(vim.fn.argv(0))
           if stat and stat.type == 'directory' then
-            require 'neo-tree'
+            require('neo-tree')
           end
         end
       end,
@@ -322,7 +322,7 @@ require('lazy').setup(
           --       refer to the README for telescope-fzf-native for more instructions.
           build = 'make',
           cond = function()
-            return vim.fn.executable 'make' == 1
+            return vim.fn.executable('make') == 1
           end,
         },
       },
@@ -446,7 +446,7 @@ require('lazy').setup(
             -- Build Step is needed for regex support in snippets
             -- This step is not supported in many windows environments
             -- Remove the below condition to re-enable on windows
-            if vim.fn.has 'win32' == 1 then
+            if vim.fn.has('win32') == 1 then
               return
             end
             return 'make install_jsregexp'
@@ -534,7 +534,7 @@ require('lazy').setup(
         'L3MON4D3/LuaSnip',
       },
       config = function()
-        require 'openscad'
+        require('openscad')
         -- load snippets, note requires
         vim.g.openscad_load_snippets = true
       end,
@@ -550,15 +550,15 @@ require('lazy').setup(
       cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
       ft = { 'markdown' },
       build = function(plugin)
-        if vim.fn.executable 'npx' then
+        if vim.fn.executable('npx') then
           vim.cmd('!cd ' .. plugin.dir .. ' && cd app && npx --yes yarn install')
         else
-          vim.cmd [[Lazy load markdown-preview.nvim]]
+          vim.cmd([[Lazy load markdown-preview.nvim]])
           vim.fn['mkdp#util#install']()
         end
       end,
       init = function()
-        if vim.fn.executable 'npx' then
+        if vim.fn.executable('npx') then
           vim.g.mkdp_filetypes = { 'markdown' }
         end
       end,
@@ -584,10 +584,10 @@ require('lazy').setup(
         end
 
         -- install dap adapter
-        require('mason-nvim-dap').setup {
+        require('mason-nvim-dap').setup({
           automatic_installation = true,
           ensure_installed = dap_adapters,
-        }
+        })
       end,
     },
     {
@@ -599,8 +599,8 @@ require('lazy').setup(
           'rcarriga/nvim-dap-ui',
           dependencies = { 'nvim-neotest/nvim-nio' },
           config = function()
-            local dap = require 'dap'
-            local dapui = require 'dapui'
+            local dap = require('dap')
+            local dapui = require('dapui')
             dapui.setup()
             dap.listeners.after.event_initialized['dapui_config'] = dapui.open
             dap.listeners.before.event_terminated['dapui_config'] = dapui.close
@@ -623,11 +623,11 @@ require('lazy').setup(
       lazy = true,
       ft = { 'go' },
       config = function()
-        local dap = require 'dap'
+        local dap = require('dap')
         require('dap-go').setup()
 
         dap.adapters.delve = function(callback, config)
-          callback { type = 'server', host = config.host, port = config.port }
+          callback({ type = 'server', host = config.host, port = config.port })
         end
         -- dap.adapters.delve = { -- ベタ書きする方法もある
         --   type = 'server',
@@ -644,7 +644,7 @@ require('lazy').setup(
       lazy = true,
       ft = { 'python' },
       config = function()
-        require('dap-python').setup 'python'
+        require('dap-python').setup('python')
       end,
     },
     {
@@ -701,7 +701,7 @@ require('lazy').setup(
       },
       keys = { '<leader>t' },
       config = function()
-        local neotest_ns = vim.api.nvim_create_namespace 'neotest'
+        local neotest_ns = vim.api.nvim_create_namespace('neotest')
         vim.diagnostic.config({
           virtual_text = {
             format = function(diagnostic)
@@ -711,7 +711,7 @@ require('lazy').setup(
           },
         }, neotest_ns)
 
-        require('neotest').setup {
+        require('neotest').setup({
           status = {
             enabled = true,
             signs = true,
@@ -723,12 +723,12 @@ require('lazy').setup(
           },
           -- your neotest config here
           adapters = {
-            require 'neotest-go' {
+            require('neotest-go')({
               args = { '--shuffle=on' },
-            },
+            }),
           },
           log_level = 3,
-        }
+        })
       end,
     },
     {
@@ -800,13 +800,13 @@ require('lazy').setup(
   }
 )
 
-require 'custom.plugins'
+require('custom.plugins')
 
 -- [[ 競技プログラミング用 ]]
 vim.api.nvim_create_user_command('Make', function()
-  vim.cmd 'messages clear'
-  print(vim.fn.system { 'make', 'test', 'ARGS=' .. vim.fn.expand '%:r' })
-  vim.cmd 'messages'
+  vim.cmd('messages clear')
+  print(vim.fn.system({ 'make', 'test', 'ARGS=' .. vim.fn.expand('%:r') }))
+  vim.cmd('messages')
 end, {})
 
 vim.api.nvim_create_user_command('DevContainerUp', function()
