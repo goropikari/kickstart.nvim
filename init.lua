@@ -286,6 +286,7 @@ require('lazy').setup(
     {
       -- ssh, docker 内で copy したものをホストの clipboard に入れる
       'ojroques/nvim-osc52',
+      keys = { '<leader>y' },
     },
     {
       -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
@@ -555,6 +556,7 @@ require('lazy').setup(
     {
       'goropikari/local-devcontainer.nvim',
       -- dir = '~/workspace/github/local-devcontainer.nvim',
+      cmd = { 'DevContainerUp' },
       dependencies = {
         'ojroques/nvim-osc52',
         -- dir = '~/workspace/github/termitary-mod.nvim',
@@ -624,4 +626,6 @@ vim.api.nvim_create_user_command('Make', function()
   vim.cmd 'messages'
 end, {})
 
-vim.api.nvim_create_user_command('DevContainerUp', require('local-devcontainer').up, {})
+vim.api.nvim_create_user_command('DevContainerUp', function()
+  require('local-devcontainer').up()
+end, {})
