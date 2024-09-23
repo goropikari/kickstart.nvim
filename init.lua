@@ -22,8 +22,8 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure plugins ]]
 require('lazy').setup(
   {
-    -- colorscheme
     {
+      -- colorscheme
       'ellisonleao/gruvbox.nvim',
       opts = {
         italic = {
@@ -44,6 +44,170 @@ require('lazy').setup(
       init = function()
         vim.cmd('colorscheme gruvbox')
       end,
+    },
+    {
+      -- hex を色を付けて表示する
+      -- :ColorizerToggle で有効になる
+      'norcalli/nvim-colorizer.lua',
+      event = 'VeryLazy',
+      cmd = { 'ColorizerToggle' },
+    },
+    {
+      -- sidebar file explorer
+      'nvim-neo-tree/neo-tree.nvim',
+      branch = 'v3.x',
+      -- cmd = 'Neotree',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+        'MunifTanjim/nui.nvim',
+        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      },
+      keys = {
+        {
+          '<c-e>', -- Ctrl-e で neo-tree の表示切り替え
+          function()
+            require('neo-tree.command').execute({ toggle = true })
+          end,
+          desc = 'Explorer NeoTree',
+        },
+      },
+      deactivate = function()
+        vim.cmd([[Neotree close]])
+      end,
+      init = function()
+        if vim.fn.argc(-1) == 1 then
+          local stat = vim.loop.fs_stat(vim.fn.argv(0))
+          if stat and stat.type == 'directory' then
+            require('neo-tree')
+          end
+        end
+      end,
+      opts = {
+        sources = { 'filesystem', 'buffers', 'git_status', 'document_symbols' },
+        open_files_do_not_replace_types = { 'terminal', 'Trouble', 'trouble', 'qf', 'Outline' },
+        hijack_netrw_behavior = 'disabled',
+        filesystem = {
+          bind_to_cwd = false,
+          follow_current_file = { enabled = true },
+          use_libuv_file_watcher = true,
+          filtered_items = {
+            hide_dotfiles = false,
+          },
+        },
+        window = {
+          position = 'float',
+          mappings = {
+            ['<space>'] = 'none',
+            ['Y'] = function(state)
+              local node = state.tree:get_node()
+              local path = node:get_id()
+              vim.fn.setreg('+', path, 'c')
+            end,
+          },
+        },
+        default_component_configs = {
+          indent = {
+            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = '',
+            expander_expanded = '',
+            expander_highlight = 'NeoTreeExpander',
+          },
+        },
+      },
+    },
+    {
+      -- Fuzzy Finder (files, lsp, etc)
+      'nvim-telescope/telescope.nvim',
+      branch = '0.1.x',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+        -- Only load if `make` is available. Make sure you have the system
+        -- requirements installed.
+        {
+          'nvim-telescope/telescope-fzf-native.nvim',
+          -- NOTE: If you are having trouble with this installation,
+          --       refer to the README for telescope-fzf-native for more instructions.
+          build = 'make',
+          cond = function()
+            return vim.fn.executable('make') == 1
+          end,
+        },
+      },
+    },
+    {
+      -- Set lualine as statusline
+      'nvim-lualine/lualine.nvim',
+      opts = {
+        options = {
+          icons_enabled = false,
+          theme = 'auto',
+          component_separators = '|',
+          section_separators = '',
+        },
+        sections = {
+          lualine_c = {
+            {
+              'filename',
+              path = 3,
+            },
+          },
+        },
+      },
+    },
+    {
+      -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
+      -- command が pop up window で表示される
+      'folke/noice.nvim',
+      event = 'VeryLazy',
+      opts = {
+        lsp = {
+          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+          override = {
+            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+            ['vim.lsp.util.stylize_markdown'] = true,
+            ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
+          },
+        },
+        -- you can enable a preset for easier configuration
+        presets = {
+          bottom_search = false, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
+      },
+      dependencies = {
+        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+        'MunifTanjim/nui.nvim',
+        -- OPTIONAL:
+        --   `nvim-notify` is only needed, if you want to use the notification view.
+        --   If not available, we use `mini` as the fallback
+        -- "rcarriga/nvim-notify",
+      },
+    },
+    {
+      -- vim.ui.input を cursor で選択できるようにする
+      'stevearc/dressing.nvim',
+      opts = {},
+    },
+    {
+      -- buffer を tab で表示する
+      'romgrk/barbar.nvim',
+      event = 'VeryLazy',
+      dependencies = {
+        'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+        'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+      },
+      init = function()
+        vim.g.barbar_auto_setup = false
+      end,
+      opts = {
+        animation = false,
+      },
+      version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
     {
       -- Highlight, edit, and navigate code
@@ -129,26 +293,6 @@ require('lazy').setup(
       end,
     },
     {
-      -- Set lualine as statusline
-      'nvim-lualine/lualine.nvim',
-      opts = {
-        options = {
-          icons_enabled = false,
-          theme = 'auto',
-          component_separators = '|',
-          section_separators = '',
-        },
-        sections = {
-          lualine_c = {
-            {
-              'filename',
-              path = 3,
-            },
-          },
-        },
-      },
-    },
-    {
       -- indent を見やすくする
       'shellRaining/hlchunk.nvim',
       event = { 'BufReadPre', 'BufNewFile' },
@@ -160,132 +304,6 @@ require('lazy').setup(
           enable = true,
         },
       },
-    },
-    {
-      -- sidebar file explorer
-      'nvim-neo-tree/neo-tree.nvim',
-      branch = 'v3.x',
-      -- cmd = 'Neotree',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-        'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
-        'MunifTanjim/nui.nvim',
-        -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-      },
-      keys = {
-        {
-          '<c-e>', -- Ctrl-e で neo-tree の表示切り替え
-          function()
-            require('neo-tree.command').execute({ toggle = true })
-          end,
-          desc = 'Explorer NeoTree',
-        },
-      },
-      deactivate = function()
-        vim.cmd([[Neotree close]])
-      end,
-      init = function()
-        if vim.fn.argc(-1) == 1 then
-          local stat = vim.loop.fs_stat(vim.fn.argv(0))
-          if stat and stat.type == 'directory' then
-            require('neo-tree')
-          end
-        end
-      end,
-      opts = {
-        sources = { 'filesystem', 'buffers', 'git_status', 'document_symbols' },
-        open_files_do_not_replace_types = { 'terminal', 'Trouble', 'trouble', 'qf', 'Outline' },
-        hijack_netrw_behavior = 'disabled',
-        filesystem = {
-          bind_to_cwd = false,
-          follow_current_file = { enabled = true },
-          use_libuv_file_watcher = true,
-          filtered_items = {
-            hide_dotfiles = false,
-          },
-        },
-        window = {
-          position = 'float',
-          mappings = {
-            ['<space>'] = 'none',
-            ['Y'] = function(state)
-              local node = state.tree:get_node()
-              local path = node:get_id()
-              vim.fn.setreg('+', path, 'c')
-            end,
-          },
-        },
-        default_component_configs = {
-          indent = {
-            with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-            expander_collapsed = '',
-            expander_expanded = '',
-            expander_highlight = 'NeoTreeExpander',
-          },
-        },
-      },
-    },
-    {
-      -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
-      -- command が pop up window で表示される
-      'folke/noice.nvim',
-      event = 'VeryLazy',
-      opts = {
-        lsp = {
-          -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-          override = {
-            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-            ['vim.lsp.util.stylize_markdown'] = true,
-            ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
-          },
-        },
-        -- you can enable a preset for easier configuration
-        presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
-          command_palette = true, -- position the cmdline and popupmenu together
-          long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
-        },
-      },
-      dependencies = {
-        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-        'MunifTanjim/nui.nvim',
-        -- OPTIONAL:
-        --   `nvim-notify` is only needed, if you want to use the notification view.
-        --   If not available, we use `mini` as the fallback
-        -- "rcarriga/nvim-notify",
-      },
-    },
-    {
-      -- vim.ui.input を cursor で選択できるようにする
-      'stevearc/dressing.nvim',
-      opts = {},
-    },
-    {
-      -- buffer を tab で表示する
-      'romgrk/barbar.nvim',
-      event = 'VeryLazy',
-      dependencies = {
-        'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-        'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-      },
-      init = function()
-        vim.g.barbar_auto_setup = false
-      end,
-      opts = {
-        animation = false,
-      },
-      version = '^1.0.0', -- optional: only update when a new 1.x version is released
-    },
-    {
-      -- Ctrl-t でターミナルを出す
-      'akinsho/toggleterm.nvim',
-      version = '*',
-      opts = {
-        open_mapping = [[<c-\>]],
-      },
-      cmd = { 'ToggleTerm' },
     },
     {
       -- cursor 下と同じ文字列に下線を引く'
@@ -308,80 +326,6 @@ require('lazy').setup(
       end,
     },
     {
-      -- Fuzzy Finder (files, lsp, etc)
-      'nvim-telescope/telescope.nvim',
-      branch = '0.1.x',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-        -- Only load if `make` is available. Make sure you have the system
-        -- requirements installed.
-        {
-          'nvim-telescope/telescope-fzf-native.nvim',
-          -- NOTE: If you are having trouble with this installation,
-          --       refer to the README for telescope-fzf-native for more instructions.
-          build = 'make',
-          cond = function()
-            return vim.fn.executable('make') == 1
-          end,
-        },
-      },
-    },
-    {
-      'goropikari/chowcho.nvim',
-      -- dir = '~/workspace/github/chowcho.nvim',
-      lazy = true,
-      keys = { '<leader>CC' },
-      branch = 'fix',
-      dependencies = {
-        'nvim-tree/nvim-web-devicons',
-      },
-      opts = {
-        -- Must be a single character. The length of the array is the maximum number of windows that can be moved.
-        labels = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' },
-        use_exclude_default = true,
-        ignore_case = true,
-        exclude = function(buf, win)
-          -- exclude noice.nvim's cmdline_popup
-          local bt = vim.api.nvim_get_option_value('buftype', { buf = buf })
-          local ft = vim.api.nvim_get_option_value('filetype', { buf = buf })
-          if bt == 'nofile' and (ft == 'noice' or ft == 'vim') then
-            return true
-          end
-          return false
-        end,
-        selector_style = 'float',
-        selector = {
-          float = {
-            border_style = 'rounded',
-            icon_enabled = true,
-            color = {
-              label = { active = '#c8cfff', inactive = '#ababab' },
-              text = { active = '#fefefe', inactive = '#d0d0d0' },
-              border = { active = '#b400c8', inactive = '#fefefe' },
-            },
-            zindex = 1,
-          },
-          statusline = {
-            color = {
-              label = { active = '#fefefe', inactive = '#d0d0d0' },
-              background = { active = '#3d7172', inactive = '#203a3a' },
-            },
-          },
-        },
-      },
-    },
-    {
-      -- Useful plugin to show you pending keybinds.
-      'folke/which-key.nvim',
-      opts = {},
-    },
-    {
-      -- ssh, docker 内で copy したものをホストの clipboard に入れる
-      'ojroques/nvim-osc52',
-      event = 'VeryLazy',
-    },
-    {
       -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
       'Wansmer/treesj',
       -- keys = { '<leader>m' },
@@ -395,6 +339,22 @@ require('lazy').setup(
       } },
       opts = {
         max_join_length = 1000,
+      },
+    },
+    {
+      'junegunn/vim-easy-align',
+      event = 'VeryLazy',
+    },
+    {
+      -- :FixWhitespace で末端空白を消す
+      'bronson/vim-trailing-whitespace',
+      cmd = { 'FixWhitespace' },
+    },
+    {
+      -- Ctrl-/ でコメント
+      'numToStr/Comment.nvim',
+      opts = {
+        mappings = false,
       },
     },
     {
@@ -420,19 +380,35 @@ require('lazy').setup(
       },
     },
     {
-      'junegunn/vim-easy-align',
+      -- Git related plugins
+      'tpope/vim-fugitive',
       event = 'VeryLazy',
     },
     {
-      -- :FixWhitespace で末端空白を消す
-      'bronson/vim-trailing-whitespace',
-      cmd = { 'FixWhitespace' },
+      -- Adds git related signs to the gutter, as well as utilities for managing changes
+      'lewis6991/gitsigns.nvim',
+      event = 'VeryLazy',
+      opts = {
+        signs = {
+          add = { text = '+' },
+          change = { text = '~' },
+          delete = { text = '_' },
+          topdelete = { text = '‾' },
+          changedelete = { text = '~' },
+        },
+      },
     },
     {
-      -- Ctrl-/ でコメント
-      'numToStr/Comment.nvim',
+      -- github review
+      'pwntester/octo.nvim',
+      event = 'VeryLazy',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope.nvim',
+        'nvim-tree/nvim-web-devicons',
+      },
       opts = {
-        mappings = false,
+        mappings_disable_default = false,
       },
     },
     {
@@ -463,48 +439,6 @@ require('lazy').setup(
       },
     },
     {
-      -- avoid nested neovim session
-      'willothy/flatten.nvim',
-      config = true,
-      lazy = false,
-      priority = 1001,
-    },
-    {
-      -- Git related plugins
-      'tpope/vim-fugitive',
-      event = 'VeryLazy',
-    },
-    {
-      -- Adds git related signs to the gutter, as well as utilities for managing changes
-      'lewis6991/gitsigns.nvim',
-      event = 'VeryLazy',
-      dependencies = {
-        'petertriho/nvim-scrollbar',
-      },
-      opts = {
-        signs = {
-          add = { text = '+' },
-          change = { text = '~' },
-          delete = { text = '_' },
-          topdelete = { text = '‾' },
-          changedelete = { text = '~' },
-        },
-      },
-    },
-    {
-      -- github review
-      'pwntester/octo.nvim',
-      event = 'VeryLazy',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-        'nvim-telescope/telescope.nvim',
-        'nvim-tree/nvim-web-devicons',
-      },
-      opts = {
-        mappings_disable_default = false,
-      },
-    },
-    {
       -- LSP Configuration & Plugins
       'neovim/nvim-lspconfig',
       dependencies = {
@@ -519,13 +453,6 @@ require('lazy').setup(
         -- Additional lua configuration, makes nvim stuff amazing!
         'folke/neodev.nvim',
       },
-    },
-    {
-      -- hex を色を付けて表示する
-      -- :ColorizerToggle で有効になる
-      'norcalli/nvim-colorizer.lua',
-      event = 'VeryLazy',
-      cmd = { 'ColorizerToggle' },
     },
     {
       'salkin-mada/openscad.nvim',
@@ -562,6 +489,11 @@ require('lazy').setup(
           vim.g.mkdp_filetypes = { 'markdown' }
         end
       end,
+    },
+    {
+      'ckipp01/stylua-nvim',
+      opts = {},
+      ft = { 'lua' },
     },
     {
       -- Mason dap
@@ -732,9 +664,74 @@ require('lazy').setup(
       end,
     },
     {
-      'ckipp01/stylua-nvim',
+      'goropikari/chowcho.nvim',
+      -- dir = '~/workspace/github/chowcho.nvim',
+      lazy = true,
+      keys = { '<leader>CC' },
+      branch = 'fix',
+      dependencies = {
+        'nvim-tree/nvim-web-devicons',
+      },
+      opts = {
+        -- Must be a single character. The length of the array is the maximum number of windows that can be moved.
+        labels = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' },
+        use_exclude_default = true,
+        ignore_case = true,
+        exclude = function(buf, win)
+          -- exclude noice.nvim's cmdline_popup
+          local bt = vim.api.nvim_get_option_value('buftype', { buf = buf })
+          local ft = vim.api.nvim_get_option_value('filetype', { buf = buf })
+          if bt == 'nofile' and (ft == 'noice' or ft == 'vim') then
+            return true
+          end
+          return false
+        end,
+        selector_style = 'float',
+        selector = {
+          float = {
+            border_style = 'rounded',
+            icon_enabled = true,
+            color = {
+              label = { active = '#c8cfff', inactive = '#ababab' },
+              text = { active = '#fefefe', inactive = '#d0d0d0' },
+              border = { active = '#b400c8', inactive = '#fefefe' },
+            },
+            zindex = 1,
+          },
+          statusline = {
+            color = {
+              label = { active = '#fefefe', inactive = '#d0d0d0' },
+              background = { active = '#3d7172', inactive = '#203a3a' },
+            },
+          },
+        },
+      },
+    },
+    {
+      -- Ctrl-t でターミナルを出す
+      'akinsho/toggleterm.nvim',
+      version = '*',
+      opts = {
+        open_mapping = [[<c-\>]],
+      },
+      cmd = { 'ToggleTerm' },
+    },
+    {
+      -- Useful plugin to show you pending keybinds.
+      'folke/which-key.nvim',
       opts = {},
-      ft = { 'lua' },
+    },
+    {
+      -- ssh, docker 内で copy したものをホストの clipboard に入れる
+      'ojroques/nvim-osc52',
+      event = 'VeryLazy',
+    },
+    {
+      -- avoid nested neovim session
+      'willothy/flatten.nvim',
+      config = true,
+      lazy = false,
+      priority = 1001,
     },
     {
       'goropikari/local-devcontainer.nvim',
