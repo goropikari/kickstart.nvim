@@ -25,6 +25,25 @@ require('lazy').setup(
     -- colorscheme
     {
       'ellisonleao/gruvbox.nvim',
+      opts = {
+        italic = {
+          strings = false,
+          emphasis = false,
+          comments = false,
+          operators = false,
+          folds = true,
+        },
+        undercurl = true,
+        underline = true,
+        bold = false,
+        overrides = {
+          LineNr = { fg = '#C0D4C0' }, -- line number の色を変える
+          Comment = { fg = '#50B010' }, -- comment の色を変える
+        },
+      },
+      init = function()
+        vim.cmd 'colorscheme gruvbox'
+      end,
     },
     {
       -- Highlight, edit, and navigate code
