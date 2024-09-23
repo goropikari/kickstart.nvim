@@ -27,16 +27,6 @@ require('lazy').setup(
       'ellisonleao/gruvbox.nvim',
     },
     {
-      'Mofiqul/vscode.nvim',
-      priority = 1000,
-    },
-    {
-      'folke/tokyonight.nvim',
-      lazy = false,
-      priority = 1000,
-      opts = {},
-    },
-    {
       -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
       dependencies = {
@@ -269,6 +259,7 @@ require('lazy').setup(
     {
       -- :FixWhitespace で末端空白を消す
       'bronson/vim-trailing-whitespace',
+      cmd = { 'FixWhitespace' },
     },
     {
       -- Ctrl-/ でコメント
@@ -365,6 +356,7 @@ require('lazy').setup(
     },
     {
       'salkin-mada/openscad.nvim',
+      ft = { 'openscad' },
       dependencies = {
         'L3MON4D3/LuaSnip',
       },
@@ -376,9 +368,7 @@ require('lazy').setup(
     },
     {
       'neoclide/jsonc.vim',
-    },
-    {
-      'imsnif/kdl.vim',
+      ft = { 'json', 'jsonc' },
     },
     {
       -- markdown
@@ -402,16 +392,72 @@ require('lazy').setup(
     },
     {
       'mfussenegger/nvim-dap',
+      lazy = true,
       dependencies = {
         'rcarriga/nvim-dap-ui', -- Creates a beautiful debugger UI
         'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
         'nvim-telescope/telescope-dap.nvim',
         'nvim-neotest/nvim-nio',
-
-        -- Add your own debuggers here
-        'leoluz/nvim-dap-go',
-        'suketa/nvim-dap-ruby',
-        'mfussenegger/nvim-dap-python',
+      },
+    },
+    {
+      'leoluz/nvim-dap-go',
+      dependencies = {
+        'mfussenegger/nvim-dap',
+      },
+      lazy = true,
+      ft = { 'go' },
+      opts = {},
+    },
+    {
+      'mfussenegger/nvim-dap-python',
+      dependencies = {
+        'mfussenegger/nvim-dap',
+      },
+      lazy = true,
+      ft = { 'python' },
+      opts = {},
+    },
+    {
+      'goropikari/nvim-dap-rdbg',
+      -- dir = '/home/arch/workspace/github/nvim-dap-rdbg',
+      dependencies = {
+        'mfussenegger/nvim-dap',
+      },
+      lazy = true,
+      ft = { 'ruby' },
+      opts = {
+        configurations = {
+          {
+            type = 'rdbg',
+            name = 'Ruby Debugger: Current File (bundler)',
+            request = 'launch',
+            command = 'ruby',
+            script = '${file}',
+            use_bundler = true,
+          },
+        },
+      },
+    },
+    {
+      'goropikari/nvim-dap-cpp',
+      -- dir = '/home/arch/workspace/github/nvim-dap-cpp',
+      dependencies = {
+        'mfussenegger/nvim-dap',
+      },
+      lazy = true,
+      ft = { 'cpp' },
+      opts = {
+        configurations = {
+          {
+            name = 'g++ - Build and debug active file with test.txt',
+            type = 'cppdbg',
+            request = 'launch',
+            program = '${fileDirname}/${fileBasenameNoExtension}',
+            cwd = '${fileDirname}',
+            args = { '<', 'test.txt' },
+          },
+        },
       },
     },
     {
@@ -422,12 +468,17 @@ require('lazy').setup(
         'nvim-treesitter/nvim-treesitter',
 
         -- language adapter
-        -- "nvim-neotest/neotest-go",
         {
           url = 'https://github.com/wwnbb/neotest-go',
           branch = 'feat/dap-support',
         },
       },
+      lazy = true,
+    },
+    {
+      'ckipp01/stylua-nvim',
+      opts = {},
+      ft = { 'lua' },
     },
     {
       'goropikari/local-devcontainer.nvim',
