@@ -286,7 +286,7 @@ require('lazy').setup(
     {
       -- ssh, docker 内で copy したものをホストの clipboard に入れる
       'ojroques/nvim-osc52',
-      keys = { '<leader>y' },
+      event = 'VeryLazy',
     },
     {
       -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
@@ -328,6 +328,7 @@ require('lazy').setup(
     },
     {
       'junegunn/vim-easy-align',
+      event = 'VeryLazy',
     },
     {
       -- :FixWhitespace で末端空白を消す
@@ -340,6 +341,7 @@ require('lazy').setup(
       opts = {
         mappings = false,
       },
+      keys = { '<c-/>', '<c-_>' },
     },
     {
       -- Autocompletion
@@ -426,6 +428,7 @@ require('lazy').setup(
       -- hex を色を付けて表示する
       -- :ColorizerToggle で有効になる
       'norcalli/nvim-colorizer.lua',
+      cmd = { 'ColorizerToggle' },
     },
     {
       'salkin-mada/openscad.nvim',
