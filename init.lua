@@ -198,6 +198,7 @@ require('lazy').setup(
       opts = {
         open_mapping = [[<c-\>]],
       },
+      cmd = { 'ToggleTerm' },
     },
     {
       -- cursor 下と同じ文字のものをハイライトする
