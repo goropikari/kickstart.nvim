@@ -175,6 +175,7 @@ require('lazy').setup(
     {
       -- buffer を tab で表示する
       'romgrk/barbar.nvim',
+      event = 'VeryLazy',
       dependencies = {
         'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
         'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
@@ -188,10 +189,6 @@ require('lazy').setup(
       version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
     {
-      -- cursor 下と同じ文字列に下線を引く'
-      'xiyaowong/nvim-cursorword',
-    },
-    {
       -- Ctrl-t でターミナルを出す
       'akinsho/toggleterm.nvim',
       version = '*',
@@ -201,8 +198,14 @@ require('lazy').setup(
       cmd = { 'ToggleTerm' },
     },
     {
+      -- cursor 下と同じ文字列に下線を引く'
+      'xiyaowong/nvim-cursorword',
+      event = 'VeryLazy',
+    },
+    {
       -- cursor 下と同じ文字のものをハイライトする
       'RRethy/vim-illuminate',
+      event = 'VeryLazy',
       opts = {
         delay = 200,
         large_file_cutoff = 2000,
@@ -371,10 +374,6 @@ require('lazy').setup(
       },
     },
     {
-      -- Git related plugins
-      'tpope/vim-fugitive',
-    },
-    {
       -- avoid nested neovim session
       'willothy/flatten.nvim',
       config = true,
@@ -382,8 +381,14 @@ require('lazy').setup(
       priority = 1001,
     },
     {
+      -- Git related plugins
+      'tpope/vim-fugitive',
+      event = 'VeryLazy',
+    },
+    {
       -- Adds git related signs to the gutter, as well as utilities for managing changes
       'lewis6991/gitsigns.nvim',
+      event = 'VeryLazy',
       dependencies = {
         'petertriho/nvim-scrollbar',
       },
@@ -392,6 +397,7 @@ require('lazy').setup(
     {
       -- github review
       'pwntester/octo.nvim',
+      event = 'VeryLazy',
       dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-telescope/telescope.nvim',
@@ -418,16 +424,10 @@ require('lazy').setup(
       },
     },
     {
-      -- Mason dap
-      'jay-babu/mason-nvim-dap.nvim',
-      dependencies = {
-        'williamboman/mason.nvim',
-      },
-    },
-    {
       -- hex を色を付けて表示する
       -- :ColorizerToggle で有効になる
       'norcalli/nvim-colorizer.lua',
+      event = 'VeryLazy',
       cmd = { 'ColorizerToggle' },
     },
     {
@@ -467,13 +467,51 @@ require('lazy').setup(
       end,
     },
     {
+      -- Mason dap
+      'jay-babu/mason-nvim-dap.nvim',
+      event = 'VeryLazy',
+      dependencies = {
+        'williamboman/mason.nvim',
+      },
+      config = function()
+        local dap_adapters = {}
+        local langs = {
+          -- { executable, dap-adapter }
+          { lang = 'go', adapter = 'delve' },
+          { lang = 'python', adapter = 'debugpy' },
+        }
+        for _, config in ipairs(langs) do
+          if vim.fn.executable(config.lang) == 1 and config.adapter then
+            table.insert(dap_adapters, config.adapter)
+          end
+        end
+
+        -- install dap adapter
+        require('mason-nvim-dap').setup {
+          automatic_installation = true,
+          ensure_installed = dap_adapters,
+        }
+      end,
+    },
+    {
       'mfussenegger/nvim-dap',
       lazy = true,
       dependencies = {
-        'rcarriga/nvim-dap-ui', -- Creates a beautiful debugger UI
+        {
+          -- Creates a beautiful debugger UI
+          'rcarriga/nvim-dap-ui',
+          dependencies = { 'nvim-neotest/nvim-nio' },
+          config = function()
+            local dap = require 'dap'
+            local dapui = require 'dapui'
+            dapui.setup()
+            dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+            dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+            dap.listeners.before.event_exited['dapui_config'] = dapui.close
+          end,
+        },
         'theHamsta/nvim-dap-virtual-text', -- code 中に変数の値を表示する
         'nvim-telescope/telescope-dap.nvim',
-        'nvim-neotest/nvim-nio',
       },
     },
     {
@@ -483,7 +521,19 @@ require('lazy').setup(
       },
       lazy = true,
       ft = { 'go' },
-      opts = {},
+      config = function()
+        local dap = require 'dap'
+        require('dap-go').setup()
+
+        dap.adapters.delve = function(callback, config)
+          callback { type = 'server', host = config.host, port = config.port }
+        end
+        -- dap.adapters.delve = { -- ベタ書きする方法もある
+        --   type = 'server',
+        --   host = '127.0.0.1',
+        --   port = 8081,
+        -- }
+      end,
     },
     {
       'mfussenegger/nvim-dap-python',
