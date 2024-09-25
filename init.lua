@@ -678,9 +678,7 @@ require('lazy').setup(
         'nvim-lua/plenary.nvim',
         'antoinemadec/FixCursorHold.nvim',
         'nvim-treesitter/nvim-treesitter',
-        {
-          url = 'https://github.com/wwnbb/neotest-go',
-        },
+        'nvim-neotest/neotest-go',
       },
       keys = { '<leader>t' },
       config = function()
@@ -695,6 +693,10 @@ require('lazy').setup(
         }, neotest_ns)
 
         require('neotest').setup({
+          diagnostic = {
+            enabled = true,
+            severity = 4,
+          },
           status = {
             enabled = true,
             signs = true,
@@ -708,6 +710,9 @@ require('lazy').setup(
           adapters = {
             require('neotest-go')({
               args = { '--shuffle=on' },
+              experimental = {
+                test_table = true,
+              },
             }),
           },
           log_level = 3,
