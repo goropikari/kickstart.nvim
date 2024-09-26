@@ -49,7 +49,6 @@ require('lazy').setup(
       -- hex を色を付けて表示する
       -- :ColorizerToggle で有効になる
       'norcalli/nvim-colorizer.lua',
-      event = 'VeryLazy',
       cmd = { 'ColorizerToggle' },
     },
     {
@@ -187,6 +186,22 @@ require('lazy').setup(
         --   If not available, we use `mini` as the fallback
         -- "rcarriga/nvim-notify",
       },
+      keys = {
+        {
+          '<leader>ne',
+          function()
+            require('noice').cmd('error')
+          end,
+          desc = 'Noice Error',
+        },
+        {
+          '<leader>nl',
+          function()
+            require('noice').cmd('last')
+          end,
+          desc = 'Noice [L]ast',
+        },
+      },
     },
     {
       -- vim.ui.input を cursor で選択できるようにする
@@ -208,6 +223,12 @@ require('lazy').setup(
         animation = false,
       },
       version = '^1.0.0', -- optional: only update when a new 1.x version is released
+      keys = {
+        { '<leader>bn', '<Cmd>BufferNext<CR>', desc = 'Buffer Next' },
+        { '<leader>bN', '<Cmd>BufferPrevious<CR>', desc = 'Buffer Previous' },
+        { '<leader>bca', '<Cmd>BufferCloseAllButCurrent<CR><C-w><C-o><CR>', desc = 'close all buffer but current' },
+        { '<leader>bcc', '<Cmd>BufferClose<CR><Cmd>q<CR>', desc = 'close buffer' },
+      },
     },
     {
       -- Highlight, edit, and navigate code
@@ -343,7 +364,9 @@ require('lazy').setup(
     },
     {
       'junegunn/vim-easy-align',
-      event = 'VeryLazy',
+      keys = {
+        { '<leader>A', '<Plug>(EasyAlign)*', desc = 'align', mode = 'v' },
+      },
     },
     {
       -- :FixWhitespace で末端空白を消す
@@ -356,12 +379,40 @@ require('lazy').setup(
       opts = {
         mappings = false,
       },
+      keys = {
+        -- terminal によって Ctrl-/ を Ctrl-_ に認識することがある。逆もしかり
+        {
+          '<c-_>',
+          function()
+            require('Comment.api').toggle.linewise.current()
+          end,
+          desc = 'Comment toggle linewise',
+        },
+        {
+          '<c-/>',
+          function()
+            require('Comment.api').toggle.linewise.current()
+          end,
+          desc = 'Comment toggle linewise',
+        },
+        {
+          '<c-_>',
+          '<ESC><CMD>lua require("Comment.api").locked("toggle.linewise")(vim.fn.visualmode())<CR>',
+          desc = 'Comment toggle linewise',
+          mode = 'v',
+        },
+        {
+          '<c-/>',
+          '<ESC><CMD>lua require("Comment.api").locked("toggle.linewise")(vim.fn.visualmode())<CR>',
+          desc = 'Comment toggle linewise',
+          mode = 'v',
+        },
+      },
     },
     {
       -- Add/delete/change surrounding pairs
       'kylechui/nvim-surround',
       version = '*', -- Use for stability; omit to use `main` branch for the latest features
-      event = 'VeryLazy',
       opts = {
         keymaps = {
           -- default keymap を無効化
@@ -377,6 +428,12 @@ require('lazy').setup(
           change = false,
           change_line = false,
         },
+      },
+      keys = {
+        { '<leader>sa', '<Plug>(nvim-surround-normal)iw', desc = 'surround add: [char]' },
+        { '<leader>sd', '<Plug>(nvim-surround-delete)', desc = 'surround delete: [char]' },
+        { '<leader>sr', '<Plug>(nvim-surround-change)', desc = 'surround replace: [from][to]' },
+        { '<leader>sa', '<Plug>(nvim-surround-visual)', desc = 'surround add: [char]', mode = 'v' },
       },
     },
     {
@@ -397,11 +454,21 @@ require('lazy').setup(
           changedelete = { text = '~' },
         },
       },
+      keys = {
+        { '<leader>g', desc = 'Git' },
+        {
+          '<leader>ga',
+          function()
+            require('gitsigns').stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+          end,
+          desc = 'stage git hunk',
+          mode = 'v',
+        },
+      },
     },
     {
       -- github review
       'pwntester/octo.nvim',
-      event = 'VeryLazy',
       dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-telescope/telescope.nvim',
@@ -410,6 +477,7 @@ require('lazy').setup(
       opts = {
         mappings_disable_default = false,
       },
+      cmd = { 'Octo' },
     },
     {
       -- Autocompletion
@@ -548,35 +616,7 @@ require('lazy').setup(
       ft = { 'lua' },
     },
     {
-      -- Mason dap
-      'jay-babu/mason-nvim-dap.nvim',
-      event = 'VeryLazy',
-      dependencies = {
-        'williamboman/mason.nvim',
-      },
-      config = function()
-        local dap_adapters = {}
-        local langs = {
-          -- { executable, dap-adapter }
-          { lang = 'go', adapter = 'delve' },
-          { lang = 'python', adapter = 'debugpy' },
-        }
-        for _, config in ipairs(langs) do
-          if vim.fn.executable(config.lang) == 1 and config.adapter then
-            table.insert(dap_adapters, config.adapter)
-          end
-        end
-
-        -- install dap adapter
-        require('mason-nvim-dap').setup({
-          automatic_installation = true,
-          ensure_installed = dap_adapters,
-        })
-      end,
-    },
-    {
       'mfussenegger/nvim-dap',
-      lazy = true,
       dependencies = {
         {
           -- Creates a beautiful debugger UI
@@ -598,6 +638,58 @@ require('lazy').setup(
         },
         'nvim-telescope/telescope-dap.nvim',
       },
+      keys = {
+        { '<leader>d', desc = 'Debug' },
+        {
+          '<leader>dC',
+          function()
+            require('dap').clear_breakpoints()
+          end,
+          desc = 'Debug: Clear Breakpoint',
+        },
+        {
+          '<leader>db',
+          function()
+            require('dap').toggle_breakpoint()
+          end,
+          desc = 'Debug: Toggle Breakpoint',
+        },
+        {
+          '<leader>dc',
+          function()
+            require('dap').toggle_breakpoint(vim.fn.input('debug condition: '))
+          end,
+          desc = 'Debug: Toggle Conditional Breakpoint',
+        },
+        {
+          '<leader>dt',
+          function()
+            require('dap-go').debug_test()
+          end,
+          desc = 'Debug Go Test',
+        },
+        {
+          '<leader>duc',
+          function()
+            require('dapui').close()
+          end,
+          desc = 'Close DAP UI',
+        },
+        {
+          '<F5>',
+          function()
+            require('dap').continue()
+          end,
+          desc = 'Debug: Continue',
+        },
+        {
+          '<F10>',
+          function()
+            require('dap').step_over()
+          end,
+          desc = 'Debug: Step over',
+        },
+      },
     },
     {
       'leoluz/nvim-dap-go',
@@ -612,6 +704,7 @@ require('lazy').setup(
         require('dap-go').setup()
 
         dap.adapters.delve = function(callback, config)
+          ---@diagnostic disable-next-line
           callback({ type = 'server', host = config.host, port = config.port })
         end
         -- dap.adapters.delve = { -- ベタ書きする方法もある
@@ -619,6 +712,13 @@ require('lazy').setup(
         --   host = '127.0.0.1',
         --   port = 8081,
         -- }
+      end,
+      build = function()
+        vim.system({
+          'go',
+          'install',
+          'github.com/go-delve/delve/cmd/dlv@latest',
+        })
       end,
     },
     {
@@ -664,7 +764,7 @@ require('lazy').setup(
       },
       lazy = true,
       ft = { 'c', 'cpp' },
-      enabled = vim.fn.executable('g++') == 1,
+      enabled = vim.fn.executable('g++') == 1 or vim.fn.executable('gcc') == 1,
       opts = {
         configurations = {
           {
@@ -692,7 +792,44 @@ require('lazy').setup(
           enabled = vim.fn.executable('go') == 1,
         },
       },
-      keys = { '<leader>t' },
+      -- keys = { '<leader>t' },
+      keys = {
+        { '<leader>t', desc = 'Test' },
+        {
+          '<leader>ta',
+          function()
+            require('neotest').run.run(vim.fn.expand('%'))
+            require('neotest').summary.open()
+          end,
+          desc = 'Test All',
+        },
+        {
+          '<leader>td',
+          function()
+            ---@diagnostic disable-next-line
+            require('neotest').run.run({ strategy = 'dap' })
+          end,
+          desc = 'Test Debug',
+        },
+        {
+          '<leader>to',
+          function()
+            require('neotest').output.open()
+          end,
+          desc = 'Test Output',
+        },
+        {
+          '<leader>ts',
+          function()
+            local exrc = vim.g.exrc
+            local env = (exrc and exrc.neotest and exrc.neotest.env) or {}
+            ---@diagnostic disable-next-line
+            require('neotest').run.run({ env = env })
+            require('neotest').summary.open()
+          end,
+          desc = 'Test Single',
+        },
+      },
       config = function()
         local neotest_ns = vim.api.nvim_create_namespace('neotest')
         vim.diagnostic.config({
@@ -745,10 +882,9 @@ require('lazy').setup(
       end,
     },
     {
+      -- 開いている window を番号で選択する
       'goropikari/chowcho.nvim',
       -- dir = '~/workspace/github/chowcho.nvim',
-      lazy = true,
-      keys = { '<leader>CC' },
       branch = 'fix',
       dependencies = {
         'nvim-tree/nvim-web-devicons',
@@ -787,31 +923,56 @@ require('lazy').setup(
           },
         },
       },
-    },
-    {
-      -- Ctrl-t でターミナルを出す
-      'akinsho/toggleterm.nvim',
-      version = '*',
-      cmd = { 'ToggleTerm' },
-      opts = {
-        open_mapping = [[<c-\>]],
-        direction = 'float',
-        winbar = {
-          enabled = true,
-          name_formatter = function(term) --  term: Terminal
-            return term.name
+      keys = {
+        {
+          '<leader>CC',
+          function()
+            require('chowcho').run()
           end,
+          desc = 'choose window',
         },
       },
     },
     {
-      -- toggleterm で開いた terminal を telescope で検索する
-      'tknightz/telescope-termfinder.nvim',
+      -- Ctrl-t でターミナルを出す
+      'akinsho/toggleterm.nvim',
       dependencies = {
         'nvim-telescope/telescope.nvim',
-        'akinsho/toggleterm.nvim',
+        -- toggleterm で開いた terminal を telescope で検索する
+        'tknightz/telescope-termfinder.nvim',
+      },
+      version = '*',
+      cmd = { 'ToggleTerm' },
+      -- opts = {
+      --   open_mapping = [[<c-\>]],
+      --   direction = 'float',
+      --   winbar = {
+      --     enabled = true,
+      --     name_formatter = function(term) --  term: Terminal
+      --       return term.name
+      --     end,
+      --   },
+      -- },
+      keys = {
+        {
+          '<c-t>',
+          function()
+            vim.cmd('ToggleTerm')
+          end,
+          mode = { 'n', 't' },
+        },
       },
       config = function()
+        require('toggleterm').setup({
+          open_mapping = [[<c-\>]],
+          direction = 'float',
+          winbar = {
+            enabled = true,
+            name_formatter = function(term) --  term: Terminal
+              return term.name
+            end,
+          },
+        })
         require('telescope').load_extension('termfinder')
       end,
     },
@@ -824,11 +985,53 @@ require('lazy').setup(
       -- ssh, docker 内で copy したものをホストの clipboard に入れる
       'ojroques/nvim-osc52',
       event = 'VeryLazy',
+      keys = {
+        {
+          '<leader>y',
+          desc = 'Yank',
+        },
+        {
+          '<leader>y',
+          function()
+            require('osc52').copy_visual()
+          end,
+          desc = 'osc52: copy clipboard',
+          mode = 'v',
+        },
+        {
+          '<leader>ya',
+          function()
+            require('osc52').copy(vim.fn.expand('%:p'))
+          end,
+          desc = 'osc52: copy file absolute path',
+        },
+        {
+          '<leader>yf',
+          function()
+            require('osc52').copy(vim.fn.expand('%:t'))
+          end,
+          desc = 'osc52: copy current file name',
+        },
+        {
+          '<leader>yr',
+          function()
+            require('osc52').copy(vim.fn.expand('%'))
+          end,
+          desc = 'osc52: copy file relative path',
+        },
+        {
+          '<leader>yy',
+          '<leader>y_',
+          desc = 'osc52: copy line',
+          -- remap = true,
+        },
+      },
     },
     {
       -- avoid nested neovim session
       'willothy/flatten.nvim',
-      config = true,
+      event = 'VeryLazy',
+      opts = {},
     },
     {
       -- google 検索
