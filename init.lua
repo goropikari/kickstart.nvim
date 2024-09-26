@@ -507,6 +507,7 @@ require('lazy').setup(
     },
     {
       'salkin-mada/openscad.nvim',
+      enabled = vim.fn.executable('openscad') == 1,
       ft = { 'openscad' },
       dependencies = {
         'L3MON4D3/LuaSnip',
@@ -605,6 +606,7 @@ require('lazy').setup(
       },
       lazy = true,
       ft = { 'go' },
+      enabled = vim.fn.executable('go') == 1,
       config = function()
         local dap = require('dap')
         require('dap-go').setup()
@@ -626,6 +628,7 @@ require('lazy').setup(
       },
       lazy = true,
       ft = { 'python' },
+      enabled = vim.fn.executable('python') == 1,
       config = function()
         require('dap-python').setup('python')
       end,
@@ -638,6 +641,7 @@ require('lazy').setup(
       },
       lazy = true,
       ft = { 'ruby' },
+      enabled = vim.fn.executable('ruby') == 1,
       opts = {
         configurations = {
           {
@@ -656,13 +660,15 @@ require('lazy').setup(
       -- dir = '/home/arch/workspace/github/nvim-dap-cpp',
       dependencies = {
         'mfussenegger/nvim-dap',
+        'nvim-lua/plenary.nvim',
       },
       lazy = true,
-      ft = { 'cpp' },
+      ft = { 'c', 'cpp' },
+      enabled = vim.fn.executable('g++') == 1,
       opts = {
         configurations = {
           {
-            name = 'g++ - Build and debug active file with test.txt',
+            name = 'Build and debug active file with test.txt',
             type = 'cppdbg',
             request = 'launch',
             program = '${fileDirname}/${fileBasenameNoExtension}',
@@ -671,6 +677,9 @@ require('lazy').setup(
           },
         },
       },
+      -- build = function()
+      --   require('dap-cpp').install_cpptools()
+      -- end,
     },
     {
       'nvim-neotest/neotest',
@@ -678,7 +687,10 @@ require('lazy').setup(
         'nvim-lua/plenary.nvim',
         'antoinemadec/FixCursorHold.nvim',
         'nvim-treesitter/nvim-treesitter',
-        'nvim-neotest/neotest-go',
+        {
+          'nvim-neotest/neotest-go',
+          enabled = vim.fn.executable('go') == 1,
+        },
       },
       keys = { '<leader>t' },
       config = function()
@@ -692,6 +704,26 @@ require('lazy').setup(
           },
         }, neotest_ns)
 
+        local langs = {
+          {
+            executable = 'go',
+            plugin_name = 'neotest-go',
+            opts = {
+              args = { '--shuffle=on' },
+              experimental = {
+                test_table = true,
+              },
+            },
+          },
+        }
+        local adapters = {}
+        for _, v in pairs(langs) do
+          if vim.fn.executable(v.executable) == 1 then
+            table.insert(adapters, require(v.plugin_name)(v.opts))
+          end
+        end
+
+        ---@diagnostic disable-next-line
         require('neotest').setup({
           diagnostic = {
             enabled = true,
@@ -707,14 +739,7 @@ require('lazy').setup(
             open_on_run = true,
           },
           -- your neotest config here
-          adapters = {
-            require('neotest-go')({
-              args = { '--shuffle=on' },
-              experimental = {
-                test_table = true,
-              },
-            }),
-          },
+          adapters = adapters,
           log_level = 3,
         })
       end,
@@ -792,6 +817,7 @@ require('lazy').setup(
     {
       'goropikari/local-devcontainer.nvim',
       -- dir = '~/workspace/github/local-devcontainer.nvim',
+      enabled = vim.fn.executable('devcontainer') == 1,
       cmd = { 'DevContainerUp' },
       dependencies = {
         'ojroques/nvim-osc52',
