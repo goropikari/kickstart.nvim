@@ -829,8 +829,13 @@ require('lazy').setup(
       -- avoid nested neovim session
       'willothy/flatten.nvim',
       config = true,
-      lazy = false,
-      priority = 1001,
+    },
+    {
+      -- google 検索
+      'voldikss/vim-browser-search',
+      keys = {
+        { '<leader>w', '<Plug>SearchVisual', 'google select word', mode = 'v' },
+      },
     },
     {
       'goropikari/local-devcontainer.nvim',
