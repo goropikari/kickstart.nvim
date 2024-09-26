@@ -792,10 +792,28 @@ require('lazy').setup(
       -- Ctrl-t でターミナルを出す
       'akinsho/toggleterm.nvim',
       version = '*',
+      cmd = { 'ToggleTerm' },
       opts = {
         open_mapping = [[<c-\>]],
+        direction = 'float',
+        winbar = {
+          enabled = true,
+          name_formatter = function(term) --  term: Terminal
+            return term.name
+          end,
+        },
       },
-      cmd = { 'ToggleTerm' },
+    },
+    {
+      -- toggleterm で開いた terminal を telescope で検索する
+      'tknightz/telescope-termfinder.nvim',
+      dependencies = {
+        'nvim-telescope/telescope.nvim',
+        'akinsho/toggleterm.nvim',
+      },
+      config = function()
+        require('telescope').load_extension('termfinder')
+      end,
     },
     {
       -- Useful plugin to show you pending keybinds.
