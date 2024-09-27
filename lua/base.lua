@@ -2,6 +2,11 @@
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 
+vim.g.mapleader = ','
+vim.g.maplocalleader = ','
+vim.o.shell = 'bash'
+vim.o.exrc = true -- current directory の .nvim.lua を読み込む
+
 -- tab の表示幅
 vim.o.expandtab = true
 vim.o.tabstop = 4
@@ -96,3 +101,6 @@ vim.g.clipboard = {
     ['*'] = paste,
   },
 }
+
+-- terminal mode を escape で抜ける
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
