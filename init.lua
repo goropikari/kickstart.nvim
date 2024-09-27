@@ -1,5 +1,5 @@
 require('base')
-require('autocmds')
+require('cmds')
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -39,9 +39,6 @@ require('lazy').setup(
           Comment = { fg = '#50B010' }, -- comment の色を変える
         },
       },
-      init = function()
-        vim.cmd('colorscheme gruvbox')
-      end,
     },
     {
       -- hex を色を付けて表示する
@@ -437,22 +434,7 @@ require('lazy').setup(
     {
       -- cursor 下と同じ文字列に下線を引く'
       'xiyaowong/nvim-cursorword',
-      event = 'VeryLazy',
-    },
-    {
-      -- cursor 下と同じ文字のものをハイライトする
-      'RRethy/vim-illuminate',
-      event = 'VeryLazy',
-      opts = {
-        delay = 200,
-        large_file_cutoff = 2000,
-        large_file_overrides = {
-          providers = { 'lsp', 'treesitter', 'regex' },
-        },
-      },
-      config = function(_, opts)
-        require('illuminate').configure(opts)
-      end,
+      -- event = 'VeryLazy',
     },
     {
       -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
@@ -1561,14 +1543,4 @@ require('lazy').setup(
 )
 
 require('custom.plugins')
-
--- [[ 競技プログラミング用 ]]
-vim.api.nvim_create_user_command('Make', function()
-  vim.cmd('messages clear')
-  print(vim.fn.system({ 'make', 'test', 'ARGS=' .. vim.fn.expand('%:r') }))
-  vim.cmd('messages')
-end, {})
-
-vim.api.nvim_create_user_command('DevContainerUp', function()
-  require('local-devcontainer').up()
-end, {})
+vim.cmd('colorscheme gruvbox')

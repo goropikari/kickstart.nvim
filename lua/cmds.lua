@@ -1,3 +1,14 @@
+-- [[ 競技プログラミング用 ]]
+vim.api.nvim_create_user_command('Make', function()
+  vim.cmd('messages clear')
+  print(vim.fn.system({ 'make', 'test', 'ARGS=' .. vim.fn.expand('%:r') }))
+  vim.cmd('messages')
+end, {})
+
+vim.api.nvim_create_user_command('DevContainerUp', function()
+  require('local-devcontainer').up()
+end, {})
+
 -- https://github.com/LazyVim/LazyVim/blob/v12.38.2/lua/lazyvim/config/autocmds.lua
 
 local function augroup(name)
