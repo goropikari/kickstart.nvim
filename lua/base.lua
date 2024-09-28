@@ -104,3 +104,13 @@ vim.g.clipboard = {
 
 -- terminal mode を escape で抜ける
 vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
+
+-- default のコメントキーマップを無効化
+vim.keymap.set('n', 'gc', '<NOP>')
+vim.keymap.set('n', 'gcc', '<NOP>')
+
+-- 削除して挿入のキーバインドを無効化
+vim.keymap.set('n', 's', '<NOP>')
+
+-- command history 表示を無効化
+vim.keymap.set('n', 'q:', '<NOP>')
