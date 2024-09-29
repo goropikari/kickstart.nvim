@@ -2,7 +2,6 @@ return {
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
-    event = 'VimEnter',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
@@ -243,7 +242,6 @@ return {
           end,
         },
       })
-      require('lspconfig').typos_lsp.setup({})
     end,
   },
 }

@@ -113,7 +113,7 @@ require('lazy').setup(
     {
       -- Fuzzy Finder (files, lsp, etc)
       'nvim-telescope/telescope.nvim',
-      event = 'VimEnter',
+      event = 'VeryLazy',
       branch = '0.1.x',
       dependencies = {
         'folke/which-key.nvim',
@@ -472,7 +472,6 @@ require('lazy').setup(
     {
       -- cursor 下と同じ文字列に下線を引く'
       'xiyaowong/nvim-cursorword',
-      -- event = 'VeryLazy',
     },
     {
       -- splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.

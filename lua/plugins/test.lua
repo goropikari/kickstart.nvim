@@ -119,7 +119,7 @@ return {
   },
   {
     'goropikari/nvim-dap-rdbg',
-    -- dir = '/home/arch/workspace/github/nvim-dap-rdbg',
+    -- dir = '~/workspace/github/nvim-dap-rdbg',
     dependencies = {
       'mfussenegger/nvim-dap',
     },
@@ -161,9 +161,6 @@ return {
         },
       },
     },
-    -- build = function()
-    --   require('dap-cpp').install_cpptools()
-    -- end,
   },
   {
     'nvim-neotest/neotest',
