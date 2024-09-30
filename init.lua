@@ -1,5 +1,4 @@
 require('base')
-require('cmds')
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -608,6 +607,9 @@ require('lazy').setup(
       cmd = { 'Octo' },
     },
     {
+      'github/copilot.vim',
+    },
+    {
       -- Autocompletion
       'hrsh7th/nvim-cmp',
       event = 'InsertEnter',
@@ -996,6 +998,7 @@ require('lazy').setup(
     require('plugins.filetypes'),
     require('plugins.lsp'),
     require('plugins.test'),
+    require('custom.plugins'),
   },
 
   -- options
@@ -1033,5 +1036,5 @@ require('lazy').setup(
   }
 )
 
-require('custom.plugins')
+require('cmds')
 vim.cmd('colorscheme gruvbox')
