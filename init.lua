@@ -610,6 +610,34 @@ require('lazy').setup(
       'github/copilot.vim',
     },
     {
+      'CopilotC-Nvim/CopilotChat.nvim',
+      branch = 'canary',
+      dependencies = {
+        { 'github/copilot.vim' },
+        { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
+      },
+      build = 'make tiktoken', -- Only on MacOS or Linux
+      opts = {
+        debug = false,
+        window = {
+          layout = 'vertical',
+          width = 0.15,
+        },
+      },
+      keys = {
+        {
+          '<leader>gcc',
+          function()
+            local input = vim.fn.input('Quick Chat: ')
+            if input ~= '' then
+              require('CopilotChat').ask(input, { selection = require('CopilotChat.select').buffer })
+            end
+          end,
+          desc = 'CopilotChat - Quick chat',
+        },
+      },
+    },
+    {
       -- Autocompletion
       'hrsh7th/nvim-cmp',
       event = 'InsertEnter',
