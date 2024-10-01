@@ -406,7 +406,7 @@ require('lazy').setup(
             highlight = { enable = true },
             indent = { enable = true },
             incremental_selection = {
-              enable = true,
+              enable = false,
               keymaps = {
                 init_selection = '<c-space>',
                 node_incremental = '<c-space>',
@@ -416,7 +416,7 @@ require('lazy').setup(
             },
             textobjects = {
               select = {
-                enable = true,
+                enable = false,
                 lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
                 keymaps = {
                   -- You can use the capture groups defined in textobjects.scm
@@ -429,7 +429,7 @@ require('lazy').setup(
                 },
               },
               move = {
-                enable = true,
+                enable = false,
                 set_jumps = true, -- whether to set jumps in the jumplist
                 goto_next_start = {
                   [']m'] = '@function.outer',
@@ -449,7 +449,7 @@ require('lazy').setup(
                 },
               },
               swap = {
-                enable = true,
+                enable = false,
                 swap_next = {
                   ['<leader>a'] = '@parameter.inner',
                 },
@@ -741,7 +741,8 @@ require('lazy').setup(
         })
       end,
     },
-    { -- Autoformat
+    {
+      -- Autoformat
       'stevearc/conform.nvim',
       event = { 'BufWritePre' },
       cmd = { 'ConformInfo' },
@@ -776,6 +777,24 @@ require('lazy').setup(
         formatters_by_ft = {
           lua = { 'stylua' },
           go = { 'goimports', 'gofumpt' },
+        },
+      },
+    },
+    {
+      'stevearc/aerial.nvim',
+      opts = {},
+      -- Optional dependencies
+      dependencies = {
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-tree/nvim-web-devicons',
+      },
+      keys = {
+        {
+          '<leader>a',
+          function()
+            require('aerial').toggle()
+          end,
+          desc = 'code outline',
         },
       },
     },
