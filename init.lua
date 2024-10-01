@@ -287,6 +287,13 @@ require('lazy').setup(
       },
       keys = {
         {
+          '<leader>nh',
+          function()
+            require('noice').cmd('history')
+          end,
+          desc = 'Noice History',
+        },
+        {
           '<leader>ne',
           function()
             require('noice').cmd('error')
@@ -298,7 +305,7 @@ require('lazy').setup(
           function()
             require('noice').cmd('last')
           end,
-          desc = 'Noice [L]ast',
+          desc = 'Noice Last',
         },
       },
     },
