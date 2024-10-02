@@ -1,4 +1,5 @@
 require('base')
+local utils = require('utils')
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -641,6 +642,17 @@ require('lazy').setup(
             end
           end,
           desc = 'CopilotChat - Quick chat',
+        },
+        {
+          '<leader>gcs',
+          function()
+            local input = vim.fn.join(utils.get_visual_lines(), '\n')
+            if input ~= '' then
+              require('CopilotChat').ask(input, { selection = require('CopilotChat.select').buffer })
+            end
+          end,
+          desc = 'CopilotChat - Send visual lines',
+          mode = 'v',
         },
       },
     },

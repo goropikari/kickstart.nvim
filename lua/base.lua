@@ -108,6 +108,8 @@ vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
 -- default のコメントキーマップを無効化
 vim.keymap.set('n', 'gc', '<NOP>')
 vim.keymap.set('n', 'gcc', '<NOP>')
+vim.keymap.set('v', 'gc', '<NOP>')
+vim.keymap.set('v', 'gcc', '<NOP>')
 
 -- 削除して挿入のキーバインドを無効化
 vim.keymap.set('n', 's', '<NOP>')
