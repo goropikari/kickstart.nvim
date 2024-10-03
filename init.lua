@@ -132,7 +132,21 @@ require('lazy').setup(
         },
       },
       config = function()
-        require('telescope').setup({})
+        -- local actions = require('telescope.actions')
+        require('telescope').setup({
+          -- defaults = {
+          --   mappings = {
+          --     i = {
+          --       ['<c-CR>'] = actions.select_default,
+          --       ['<CR>'] = actions.nop,
+          --     },
+          --     n = {
+          --       ['<c-CR>'] = actions.select_default,
+          --       ['<CR>'] = actions.nop,
+          --     },
+          --   },
+          -- },
+        })
 
         -- Enable telescope fzf native, if installed
         pcall(require('telescope').load_extension, 'fzf')
@@ -964,6 +978,15 @@ require('lazy').setup(
           { '<leader>g', group = 'Git' },
           { '<leader>l', group = 'LSP' },
           { '<leader>r', group = 'Bookmark' },
+
+          {
+            '<leader>w',
+            function()
+              vim.cmd('w') -- ファイルを保存 (:w)
+              vim.cmd('source') -- カレントファイルを再読み込み (:source)
+            end,
+            desc = 'write & source',
+          },
         },
       },
     },
