@@ -91,6 +91,15 @@ vim.api.nvim_buf_set_keymap(prompt_buf, 'i', '<C-CR>', '', {
   end,
 })
 
+-- windows だと <c-cr> が何故か効かない
+vim.api.nvim_buf_set_keymap(prompt_buf, 'i', '<c-s>', '', {
+  noremap = true,
+  silent = true,
+  callback = function()
+    send_prompt_to_viewer(prompt_buf, viewer_buf)
+  end,
+})
+
 -- 非表示のウィンドウを再表示する関数
 local function show_windows()
   if is_windows_hidden then
@@ -121,6 +130,21 @@ end
 
 -- <ESC> でウィンドウを非表示にする
 vim.api.nvim_buf_set_keymap(prompt_buf, 'n', '<Esc>', '', {
+  noremap = true,
+  silent = true,
+  callback = hide_windows,
+})
+vim.api.nvim_buf_set_keymap(prompt_buf, 'n', 'q', '', {
+  noremap = true,
+  silent = true,
+  callback = hide_windows,
+})
+vim.api.nvim_buf_set_keymap(viewer_buf, 'n', '<Esc>', '', {
+  noremap = true,
+  silent = true,
+  callback = hide_windows,
+})
+vim.api.nvim_buf_set_keymap(viewer_buf, 'n', 'q', '', {
   noremap = true,
   silent = true,
   callback = hide_windows,
