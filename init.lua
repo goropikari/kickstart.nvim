@@ -671,6 +671,24 @@ require('lazy').setup(
       },
     },
     {
+      'jackMort/ChatGPT.nvim',
+      event = 'VeryLazy',
+      enabled = vim.fn.executable('ollama') == 1,
+      opts = {
+        api_host_cmd = 'echo http://127.0.0.1:11434',
+        api_key_cmd = 'echo dummy_api_key',
+        openai_params = {
+          model = 'llama3.2',
+        },
+      },
+      dependencies = {
+        'MunifTanjim/nui.nvim',
+        'nvim-lua/plenary.nvim',
+        'folke/trouble.nvim',
+        'nvim-telescope/telescope.nvim',
+      },
+    },
+    {
       -- Autocompletion
       'hrsh7th/nvim-cmp',
       event = 'InsertEnter',
