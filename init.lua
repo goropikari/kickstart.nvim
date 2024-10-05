@@ -18,8 +18,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- [[ Configure plugins ]]
-require('lazy').setup(
-  {
+require('lazy').setup({
+  spec = {
     {
       -- colorscheme
       'ellisonleao/gruvbox.nvim',
@@ -630,9 +630,11 @@ require('lazy').setup(
     },
     {
       'github/copilot.vim',
+      enabled = vim.fn.filereadable(os.getenv('HOME') .. '/.config/github-copilot/apps.json') == 1,
     },
     {
       'CopilotC-Nvim/CopilotChat.nvim',
+      enabled = vim.fn.filereadable(os.getenv('HOME') .. '/.config/github-copilot/apps.json') == 1,
       branch = 'canary',
       dependencies = {
         { 'github/copilot.vim' },
@@ -672,15 +674,8 @@ require('lazy').setup(
     },
     {
       'jackMort/ChatGPT.nvim',
-      event = 'VeryLazy',
-      -- enabled = vim.fn.executable('ollama') == 1,
-      enabled = (function()
-        if vim.fn.executable('ollama') ~= 1 then
-          return false
-        end
-        local obj = vim.system({ 'ollama', 'ps' }):wait()
-        return obj.code == 0
-      end)(),
+      enabled = vim.fn.filereadable(os.getenv('HOME') .. '/.config/github-copilot/apps.json') ~= 1,
+      cmd = { 'ChatGPT' },
       opts = {
         api_host_cmd = 'echo http://127.0.0.1:11434',
         api_key_cmd = 'echo dummy_api_key',
@@ -698,7 +693,8 @@ require('lazy').setup(
     },
     {
       'olimorris/codecompanion.nvim',
-      enabled = false,
+      enabled = vim.fn.filereadable(os.getenv('HOME') .. '/.config/github-copilot/apps.json') ~= 1,
+      cmd = { 'CodeCompanionChat' },
       dependencies = {
         'nvim-lua/plenary.nvim',
         'nvim-treesitter/nvim-treesitter',
@@ -1162,46 +1158,44 @@ require('lazy').setup(
       },
     },
 
-    require('plugins.filetypes'),
-    require('plugins.lsp'),
-    require('plugins.test'),
+    { import = 'plugins.filetypes' },
+    { import = 'plugins.lsp' },
+    { import = 'plugins.test' },
     require('custom.plugins'),
   },
 
   -- options
-  {
-    checker = {
-      -- automatically check for plugin updates
-      enabled = true,
-      concurrency = nil, ---@type number? set to 1 to check for updates very slowly
-      notify = false, -- get a notification when new updates are found
-      frequency = 3600, -- check for updates every hour
-      check_pinned = false, -- check for pinned packages that can't be updated
-    },
-    change_detection = {
-      -- automatically check for config file changes and reload the ui
-      enabled = true,
-      notify = false, -- get a notification when changes are found
-    },
-    performance = {
-      rtp = {
-        disabled_plugins = {
-          'netrw',
-          'netrwPlugin',
-          'netrwSettings',
-          'gzip',
-          -- "matchit",
-          -- "matchparen",
-          'netrwPlugin',
-          'tarPlugin',
-          'tohtml',
-          'tutor',
-          'zipPlugin', -- "netrwFileHandlers",
-        },
+  checker = {
+    -- automatically check for plugin updates
+    enabled = true,
+    concurrency = nil, ---@type number? set to 1 to check for updates very slowly
+    notify = false, -- get a notification when new updates are found
+    frequency = 3600, -- check for updates every hour
+    check_pinned = false, -- check for pinned packages that can't be updated
+  },
+  change_detection = {
+    -- automatically check for config file changes and reload the ui
+    enabled = true,
+    notify = false, -- get a notification when changes are found
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'netrw',
+        'netrwPlugin',
+        'netrwSettings',
+        'gzip',
+        -- "matchit",
+        -- "matchparen",
+        'netrwPlugin',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin', -- "netrwFileHandlers",
       },
     },
-  }
-)
+  },
+})
 
 require('cmds')
 vim.cmd('colorscheme gruvbox')
