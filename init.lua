@@ -673,12 +673,20 @@ require('lazy').setup(
     {
       'jackMort/ChatGPT.nvim',
       event = 'VeryLazy',
-      enabled = vim.fn.executable('ollama') == 1,
+      -- enabled = vim.fn.executable('ollama') == 1,
+      enabled = (function()
+        if vim.fn.executable('ollama') ~= 1 then
+          return false
+        end
+        local obj = vim.system({ 'ollama', 'ps' }):wait()
+        return obj.code == 0
+      end)(),
       opts = {
         api_host_cmd = 'echo http://127.0.0.1:11434',
         api_key_cmd = 'echo dummy_api_key',
         openai_params = {
-          model = 'llama3.2',
+          -- model = 'codellama',
+          model = 'codegemma',
         },
       },
       dependencies = {
@@ -686,6 +694,58 @@ require('lazy').setup(
         'nvim-lua/plenary.nvim',
         'folke/trouble.nvim',
         'nvim-telescope/telescope.nvim',
+      },
+    },
+    {
+      'olimorris/codecompanion.nvim',
+      enabled = false,
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        'nvim-treesitter/nvim-treesitter',
+        -- 'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
+        -- 'nvim-telescope/telescope.nvim', -- Optional: For using slash commands
+        -- { 'stevearc/dressing.nvim', opts = {} }, -- Optional: Improves `vim.ui.select`
+      },
+      opts = {
+        adapters = {
+          codellama = function()
+            return require('codecompanion.adapters').extend('ollama', {
+              name = 'codellama', -- Give this adapter a different name to differentiate it from the default ollama adapter
+              schema = {
+                model = {
+                  default = 'codellama',
+                },
+                -- num_ctx = {
+                --   default = 16384,
+                -- },
+                -- num_predict = {
+                --   default = -1,
+                -- },
+              },
+            })
+          end,
+          codegemma = function()
+            return require('codecompanion.adapters').extend('ollama', {
+              name = 'codegemma',
+              schema = {
+                model = {
+                  default = 'codegemma',
+                },
+              },
+            })
+          end,
+        },
+        strategies = {
+          chat = {
+            adapter = 'codegemma',
+          },
+          inline = {
+            adapter = 'codegemma',
+          },
+          agent = {
+            adapter = 'codegemma',
+          },
+        },
       },
     },
     {
