@@ -252,6 +252,9 @@ require('lazy').setup({
     {
       -- Set lualine as statusline
       'nvim-lualine/lualine.nvim',
+      dependencies = {
+        dir = vim.fn.stdpath('config') .. '/lua/custom/plugins/codecompanion-lualine',
+      },
       opts = {
         options = {
           icons_enabled = false,
@@ -264,6 +267,11 @@ require('lazy').setup({
             {
               'filename',
               path = 3,
+            },
+          },
+          lualine_x = {
+            {
+              'codecompanion',
             },
           },
         },
@@ -682,6 +690,7 @@ require('lazy').setup({
         openai_params = {
           -- model = 'codellama',
           model = 'codegemma',
+          -- model = 'qwen2.5-coder',
         },
       },
       dependencies = {
@@ -730,10 +739,20 @@ require('lazy').setup({
               },
             })
           end,
+          qwen = function()
+            return require('codecompanion.adapters').extend('ollama', {
+              name = 'codegemma',
+              schema = {
+                model = {
+                  default = 'qwen2.5-coder',
+                },
+              },
+            })
+          end,
         },
         strategies = {
           chat = {
-            adapter = 'codegemma',
+            adapter = 'qwen',
           },
           inline = {
             adapter = 'codegemma',
