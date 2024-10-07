@@ -1134,7 +1134,18 @@ require('lazy').setup({
       'folke/todo-comments.nvim',
       event = 'VimEnter',
       dependencies = { 'nvim-lua/plenary.nvim' },
-      opts = { signs = false },
+      -- opts = { signs = false },
+      config = function()
+        require('todo-comments').setup({
+          signs = false,
+        })
+        -- command 必要ないので削除
+        for name, _ in pairs(vim.api.nvim_get_commands({ builtin = false })) do
+          if name:find('Todo') then
+            vim.api.nvim_del_user_command(name)
+          end
+        end
+      end,
     },
     {
       -- avoid nested neovim session
