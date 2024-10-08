@@ -237,8 +237,24 @@ return {
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
+
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+          end,
+        },
+      })
+
+      -- diagnostics の出所と理由を表示するようにする
+      -- https://dev.classmethod.jp/articles/eetann-change-neovim-lsp-diagnostics-format/
+      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        update_in_insert = false,
+        virtual_text = {
+          -- format = function(diagnostic)
+          --   return string.format('%s (%s: %s)', diagnostic.message, diagnostic.source, diagnostic.code)
+          -- end,
+          -- source = true,
+          suffix = function(diagnostic)
+            return string.format(' (%s: %s)', diagnostic.source, diagnostic.code)
           end,
         },
       })
