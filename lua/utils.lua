@@ -38,7 +38,11 @@ end
 ---@return table<string>
 function M.get_visual_lines(opts)
   if vim.fn.mode() == 'n' then -- command から使う用
-    return vim.fn.getline(opts.line1, opts.line2)
+    local res = vim.fn.getline(opts.line1, opts.line2)
+    if type(res) == 'string' then
+      res = { res }
+    end
+    return res
   else -- <leader> key を使った keymap 用
     local lines = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), { type = vim.fn.mode() })
     -- https://github.com/neovim/neovim/discussions/26092
