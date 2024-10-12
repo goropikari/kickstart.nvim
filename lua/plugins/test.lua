@@ -48,7 +48,8 @@ return {
       {
         '<leader>dt',
         function()
-          require('dap-go').debug_test()
+          ---@diagnostic disable-next-line
+          require('neotest').run.run({ strategy = 'dap' })
         end,
         desc = 'Debug Go Test',
       },
@@ -75,36 +76,36 @@ return {
       },
     },
   },
-  {
-    'leoluz/nvim-dap-go',
-    dependencies = {
-      'mfussenegger/nvim-dap',
-    },
-    lazy = true,
-    ft = { 'go' },
-    enabled = vim.fn.executable('go') == 1,
-    config = function()
-      local dap = require('dap')
-      require('dap-go').setup()
-
-      dap.adapters.delve = function(callback, config)
-        ---@diagnostic disable-next-line
-        callback({ type = 'server', host = config.host, port = config.port })
-      end
-      -- dap.adapters.delve = { -- ベタ書きする方法もある
-      --   type = 'server',
-      --   host = '127.0.0.1',
-      --   port = 8081,
-      -- }
-    end,
-    build = function()
-      vim.system({
-        'go',
-        'install',
-        'github.com/go-delve/delve/cmd/dlv@latest',
-      })
-    end,
-  },
+  -- {
+  --   'leoluz/nvim-dap-go',
+  --   dependencies = {
+  --     'mfussenegger/nvim-dap',
+  --   },
+  --   lazy = true,
+  --   ft = { 'go' },
+  --   enabled = vim.fn.executable('go') == 1,
+  --   config = function()
+  --     local dap = require('dap')
+  --     require('dap-go').setup()
+  --
+  --     dap.adapters.delve = function(callback, config)
+  --       ---@diagnostic disable-next-line
+  --       callback({ type = 'server', host = config.host, port = config.port })
+  --     end
+  --     -- dap.adapters.delve = { -- ベタ書きする方法もある
+  --     --   type = 'server',
+  --     --   host = '127.0.0.1',
+  --     --   port = 8081,
+  --     -- }
+  --   end,
+  --   build = function()
+  --     vim.system({
+  --       'go',
+  --       'install',
+  --       'github.com/go-delve/delve/cmd/dlv@latest',
+  --     })
+  --   end,
+  -- },
   {
     'mfussenegger/nvim-dap-python',
     dependencies = {
@@ -168,12 +169,16 @@ return {
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
+      -- {
+      --   'nvim-neotest/neotest-go',
+      --   enabled = vim.fn.executable('go') == 1,
+      -- },
       {
-        'nvim-neotest/neotest-go',
+        'fredrikaverpil/neotest-golang',
+        -- version = '*',
         enabled = vim.fn.executable('go') == 1,
       },
     },
-    -- keys = { '<leader>t' },
     keys = {
       { '<leader>t', desc = 'Test' },
       {
@@ -225,7 +230,7 @@ return {
       local langs = {
         {
           executable = 'go',
-          plugin_name = 'neotest-go',
+          plugin_name = 'neotest-golang',
           opts = {
             args = { '--shuffle=on' },
             experimental = {
