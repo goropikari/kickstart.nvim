@@ -415,7 +415,7 @@ require('lazy').setup({
         vim.defer_fn(function()
           require('nvim-treesitter.configs').setup({
             -- Add languages to be installed here that you want installed for treesitter
-            ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'ruby' },
+            ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'vimdoc', 'vim', 'bash', 'ruby' },
 
             -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
             auto_install = false,
@@ -451,7 +451,7 @@ require('lazy').setup({
                 },
               },
               move = {
-                enable = false,
+                enable = true,
                 set_jumps = true, -- whether to set jumps in the jumplist
                 goto_next_start = {
                   [']m'] = '@function.outer',
