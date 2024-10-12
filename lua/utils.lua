@@ -61,4 +61,16 @@ end
 --   range = 0, -- これを入れないと No range allowed というエラーが出る
 -- })
 
+function M.dig(tb, keys)
+  local ret = nil
+  for _, v in ipairs(keys) do
+    ret = tb[v]
+    if ret == nil then
+      return ''
+    end
+    tb = tb[v]
+  end
+  return ret
+end
+
 return M

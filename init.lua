@@ -956,7 +956,23 @@ require('lazy').setup({
           { '<leader>s_', hidden = true },
 
           -- Diagnostic keymaps
-          { '<leader>e', vim.diagnostic.open_float, desc = 'Open floating diagnostic message' },
+          {
+            '<leader>e',
+            function()
+              vim.diagnostic.open_float({
+                suffix = function(diagnostic)
+                  local utils = require('utils')
+                  local href = utils.dig(diagnostic, { 'user_data', 'lsp', 'codeDescription', 'href' })
+                  if href == '' then
+                    return string.format(' (%s: %s)', diagnostic.source, diagnostic.code), ''
+                  else
+                    return string.format(' (%s: %s, %s)', diagnostic.source, diagnostic.code, href), ''
+                  end
+                end,
+              })
+            end,
+            desc = 'Open floating diagnostic message',
+          },
           { '<leader>q', vim.diagnostic.setloclist, desc = 'Open diagnostics list' },
 
           -- [[ osc52 ]]
