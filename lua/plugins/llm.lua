@@ -75,7 +75,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
-      -- 'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
+      'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
       -- 'nvim-telescope/telescope.nvim', -- Optional: For using slash commands
       -- { 'stevearc/dressing.nvim', opts = {} }, -- Optional: Improves `vim.ui.select`
     },
@@ -86,7 +86,7 @@ return {
             name = 'codellama', -- Give this adapter a different name to differentiate it from the default ollama adapter
             schema = {
               model = {
-                default = 'codellama',
+                default = 'codegemma',
               },
               -- num_ctx = {
               --   default = 16384,
@@ -103,6 +103,9 @@ return {
             schema = {
               model = {
                 default = 'codegemma:7b-instruct-v1.1-q8_0',
+              },
+              num_ctx = {
+                default = 2048,
               },
             },
           })

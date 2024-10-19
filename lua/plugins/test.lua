@@ -146,7 +146,7 @@ return {
     'nvim-neotest/neotest',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'antoinemadec/FixCursorHold.nvim',
+      -- 'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
       {
         'fredrikaverpil/neotest-golang',
