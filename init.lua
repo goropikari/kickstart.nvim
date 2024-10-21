@@ -25,10 +25,6 @@ require('lazy').setup({
     { import = 'plugins' },
     -- require('custom.plugins'),
     { import = 'custom.plugins' },
-    {
-      dir = vim.fn.stdpath('config') .. '/lua/custom/plugins/nvim-dap-bash',
-      -- opts = {},
-    },
   },
 
   -- options

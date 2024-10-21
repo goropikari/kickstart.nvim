@@ -1063,6 +1063,43 @@ return {
     },
   },
   {
+    'goropikari/jnv.nvim',
+    -- dir = '~/workspace/github/jnv.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+    },
+    opts = {
+      window = {
+        layout = 'vertical',
+      },
+    },
+    keys = {
+      {
+        '<leader>jn',
+        function()
+          require('jnv').jnv_current_buffer()
+        end,
+        desc = 'open jnv',
+      },
+      {
+        '<leader>jn',
+        function()
+          require('jnv').jnv_selection()
+        end,
+        mode = 'v',
+        desc = 'open jnv',
+      },
+      {
+        '<leader>jt',
+        function()
+          require('telescope').extensions.jnv.jnv()
+        end,
+        mode = 'n',
+        desc = 'list jnv buffer',
+      },
+    },
+  },
+  {
     'goropikari/local-devcontainer.nvim',
     -- dir = '~/workspace/github/local-devcontainer.nvim',
     enabled = vim.fn.executable('devcontainer') == 1,
