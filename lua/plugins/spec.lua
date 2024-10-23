@@ -972,17 +972,30 @@ return {
         { '<leader>g', group = 'Git' },
         { '<leader>l', group = 'LSP' },
         { '<leader>r', group = 'Bookmark' },
-
         {
-          '<leader>w',
+          '<leader>W',
           function()
-            vim.cmd('w') -- ファイルを保存 (:w)
-            if vim.bo.filetype == 'lua' then
-              vim.cmd('source') -- カレントファイルを再読み込み (:source)
+            local uri = vim.fn.expand('<cWORD>')
+            local pattern = '[%w-]+:.*'
+            if string.match(uri, pattern) then
+              vim.system({ 'xdg-open', uri })
+            else
+              vim.notify('not uri')
             end
           end,
-          desc = 'write & source',
+          desc = 'open uri',
         },
+
+        -- {
+        --   '<leader>w',
+        --   function()
+        --     vim.cmd('w') -- ファイルを保存 (:w)
+        --     if vim.bo.filetype == 'lua' then
+        --       vim.cmd('source') -- カレントファイルを再読み込み (:source)
+        --     end
+        --   end,
+        --   desc = 'write & source',
+        -- },
       },
     },
   },
@@ -1042,6 +1055,7 @@ return {
     'voldikss/vim-browser-search',
     keys = {
       { '<leader>w', '<Plug>SearchVisual', 'google select word', mode = 'v' },
+      { '<leader>w', '<Plug>SearchNormal', 'google select word', mode = 'n' },
     },
   },
   {
