@@ -48,18 +48,14 @@ require('lazy').setup({
     reset_packpath = true, -- reset the package path to improve startup time
     rtp = {
       disabled_plugins = {
-        'commenting',
         'gzip',
         'tarPlugin',
         'tohtml',
         'tutor',
         'zipPlugin', -- "netrwFileHandlers",
-        -- "matchit",
-        -- "matchparen",
-        -- 'netrw',
-        -- 'netrwPlugin',
-        -- 'netrwPlugin',
-        -- 'netrwSettings',
+        'netrw',
+        'netrwPlugin',
+        'netrwSettings',
       },
     },
   },
