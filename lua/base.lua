@@ -78,11 +78,11 @@ vim.filetype.add({
   },
 })
 
--- only set clipboard if not in ssh, to make sure the OSC 52
--- integration works automatically. Requires Neovim >= 0.10.0
--- https://github.com/LazyVim/LazyVim/blob/12818a6cb499456f4903c5d8e68af43753ebc869/lua/lazyvim/config/options.lua#L56-L58
+vim.opt.clipboard = 'unnamedplus' -- Sync with system clipboard
+
+-- 公式 doc に記載されている方法だと paste 時に ctrl-c を押さないと paste ができなくなるのでその回避
 -- https://github.com/neovim/neovim/discussions/28010#discussioncomment-9877494
-vim.opt.clipboard = vim.env.SSH_TTY and '' or 'unnamedplus' -- Sync with system clipboard
+-- https://neovim.io/doc/user/provider.html#clipboard-osc52
 local function paste()
   return {
     vim.fn.split(vim.fn.getreg(''), '\n'),

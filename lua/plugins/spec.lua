@@ -989,34 +989,8 @@ return {
   {
     -- ssh, docker 内で copy したものをホストの clipboard に入れる
     'ojroques/nvim-osc52',
-    config = function()
-      vim.keymap.set('n', '<leader>y', require('osc52').copy_operator, { expr = true })
-      vim.keymap.set('n', '<leader>yy', '<leader>y_', { remap = true, desc = 'copy current line' })
-      vim.keymap.set('v', '<leader>y', require('osc52').copy_visual, { desc = 'copy' })
-    end,
+    event = 'VeryLazy',
     keys = {
-      -- {
-      --   '<leader>y',
-      --   function()
-      --     require('osc52').copy_operator()
-      --   end,
-      --   desc = 'Yank',
-      --   expr = true,
-      -- },
-      -- {
-      --   '<leader>yy',
-      --   '<leader>y_',
-      --   desc = 'osc52: copy line',
-      --   remap = true,
-      -- },
-      -- {
-      --   '<leader>y',
-      --   function()
-      --     require('osc52').copy_visual()
-      --   end,
-      --   desc = 'osc52: copy clipboard',
-      --   mode = 'v',
-      -- },
       {
         '<leader>ya',
         function()
