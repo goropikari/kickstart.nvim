@@ -156,6 +156,7 @@ return {
             },
           },
         },
+        jsonls = {},
       }
 
       for executable, config in pairs({
