@@ -1,14 +1,14 @@
 return {
-  {
-    'goropikari/ollama-completion.nvim',
-    event = 'InsertEnter',
-    cond = os.getenv('ENABLE_OLLAMA_COMPLETION') == '1',
-    opts = {
-      url = os.getenv('OLLAMA_URL'),
-      model = 'qwen2.5-coder:3b',
-      debounce_ms = 500,
-    },
-  },
+  -- {
+  --   'goropikari/ollama-completion.nvim',
+  --   event = 'InsertEnter',
+  --   cond = os.getenv('ENABLE_OLLAMA_COMPLETION') == '1',
+  --   opts = {
+  --     url = os.getenv('OLLAMA_URL'),
+  --     model = 'qwen2.5-coder:3b',
+  --     debounce_ms = 500,
+  --   },
+  -- },
   {
     'goropikari/claude.nvim',
     dependencies = {
