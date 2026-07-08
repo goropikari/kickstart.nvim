@@ -69,6 +69,7 @@ return {
         function()
           require('snacks').picker.files({
             hidden = true,
+            ignored = true,
             exclude = { '.git', 'node_modules' },
           })
         end,
