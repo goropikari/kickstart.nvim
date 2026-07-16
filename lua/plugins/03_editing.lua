@@ -4,6 +4,30 @@ return {
     branch = 'main',
     lazy = false,
     build = ':TSUpdate',
+    opts = {
+      ensure_installed = {
+        'bash',
+        'c',
+        'cpp',
+        'go',
+        'json',
+        'lua',
+        'python',
+        'ruby',
+        'vim',
+        'vimdoc',
+      },
+    },
+    config = function(_, opts)
+      require('nvim-treesitter').install(opts.ensure_installed)
+
+      vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('vim-treesitter-start', { clear = true }),
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+    end,
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
@@ -39,40 +63,6 @@ return {
   {
     'bronson/vim-trailing-whitespace',
     cmd = { 'FixWhitespace' },
-  },
-  {
-    'numToStr/Comment.nvim',
-    opts = {
-      mappings = false,
-    },
-    keys = {
-      {
-        '<c-_>',
-        function()
-          require('Comment.api').toggle.linewise.current()
-        end,
-        desc = 'Comment toggle linewise',
-      },
-      {
-        '<c-/>',
-        function()
-          require('Comment.api').toggle.linewise.current()
-        end,
-        desc = 'Comment toggle linewise',
-      },
-      {
-        '<c-_>',
-        '<ESC><CMD>lua require("Comment.api").locked("toggle.linewise")(vim.fn.visualmode())<CR>',
-        desc = 'Comment toggle linewise',
-        mode = 'v',
-      },
-      {
-        '<c-/>',
-        '<ESC><CMD>lua require("Comment.api").locked("toggle.linewise")(vim.fn.visualmode())<CR>',
-        desc = 'Comment toggle linewise',
-        mode = 'v',
-      },
-    },
   },
   {
     'kylechui/nvim-surround',

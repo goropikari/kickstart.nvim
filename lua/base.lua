@@ -163,9 +163,24 @@ vim.keymap.set('t', '<C-q>', function()
   vim.fn.chansend(vim.b.terminal_job_id, '\x1b')
 end)
 
--- default のコメントキーマップを無効化
-vim.keymap.del({ 'n', 'v' }, 'gc')
-vim.keymap.del({ 'n' }, 'gcc')
+-- Disable the built-in comment keymaps and keep only the remapped versions below.
+vim.keymap.del({ 'n', 'x' }, 'gc')
+vim.keymap.del('n', 'gcc')
+vim.keymap.del('o', 'gc')
+
+-- Ctrl-/ でコメントする
+vim.keymap.set('n', '<C-_>', function()
+  return require('vim._comment').operator() .. '_'
+end, { expr = true, desc = 'Toggle comment line' })
+vim.keymap.set('n', '<C-/>', function()
+  return require('vim._comment').operator() .. '_'
+end, { expr = true, desc = 'Toggle comment line' })
+vim.keymap.set('x', '<C-_>', function()
+  return require('vim._comment').operator()
+end, { expr = true, desc = 'Toggle comment' })
+vim.keymap.set('x', '<C-/>', function()
+  return require('vim._comment').operator()
+end, { expr = true, desc = 'Toggle comment' })
 
 -- 削除して挿入のキーバインドを無効化
 vim.keymap.set('n', 's', '<NOP>')

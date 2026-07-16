@@ -10,7 +10,7 @@ return {
           return
         end
 
-        local disable_filetypes = { c = false, cpp = false, html = true }
+        local disable_filetypes = { c = false, cpp = false, go = true, html = true }
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
@@ -24,9 +24,9 @@ return {
       end,
       formatters_by_ft = {
         cpp = { 'clang-format' },
-        go = { 'goimports', 'gofumpt' },
+        go = { 'golangci-lint' },
         lua = { 'stylua' },
-        markdown = { 'markdownlint-cli2', 'cbfmt' },
+        markdown = { 'dprint' },
         proto = { 'buf', 'format' },
         tex = { 'tex-fmt' },
       },

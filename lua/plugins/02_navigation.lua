@@ -53,19 +53,6 @@ return {
       },
     },
   },
-  -- {
-  --   'nvim-tree/nvim-tree.lua',
-  --   opts = {},
-  --   keys = {
-  --     {
-  --       '<c-e>',
-  --       function()
-  --         require('nvim-tree.api').tree.toggle()
-  --       end,
-  --       desc = 'Explorer NvimTree',
-  --     },
-  --   },
-  -- },
   {
     'goropikari/tabflow.nvim',
     lazy = false,

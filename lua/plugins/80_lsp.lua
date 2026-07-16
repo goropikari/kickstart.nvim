@@ -44,18 +44,6 @@ return {
           end,
         },
         {
-          'gofumpt',
-          condition = function()
-            return vim.fn.executable('go') == 1
-          end,
-        },
-        {
-          'goimports',
-          condition = function()
-            return vim.fn.executable('go') == 1
-          end,
-        },
-        {
           'gopls',
           condition = function()
             return vim.fn.executable('go') == 1
@@ -92,12 +80,6 @@ return {
           'stylua',
         },
         {
-          'markdownlint-cli2',
-          condition = function()
-            return vim.fn.executable('npm') == 1
-          end,
-        },
-        {
           'docker-language-server',
           condition = function()
             return vim.fn.executable('docker') == 1
@@ -108,9 +90,6 @@ return {
           condition = function()
             return vim.fn.executable('npm') == 1
           end,
-        },
-        {
-          'cbfmt',
         },
         {
           'dprint',
@@ -145,6 +124,9 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
+          local highlight_group_name = 'kickstart-lsp-highlight-' .. event.buf
+          local highlight_augroup = vim.api.nvim_create_augroup(highlight_group_name, { clear = true })
+
           map('gd', require('snacks').picker.lsp_definitions, 'Goto Definition')
           map('gr', require('snacks').picker.lsp_references, 'Goto References')
           map('gI', require('snacks').picker.lsp_implementations, 'Goto Implementation')
@@ -157,6 +139,11 @@ return {
           map('<leader>lK', vim.lsp.buf.hover, 'Hover Documentation')
           map('<leader>ldh', vim.lsp.buf.hover, 'Hover Documentation')
           map('<leader>lf', function(_)
+            if vim.bo[event.buf].filetype == 'go' then
+              require('conform').format({ bufnr = event.buf, lsp_format = 'never' })
+              return
+            end
+
             vim.lsp.buf.format()
           end, 'Format')
           map('<leader>lgD', vim.lsp.buf.declaration, 'Goto Declaration')
@@ -167,7 +154,6 @@ return {
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
               group = highlight_augroup,
@@ -181,10 +167,11 @@ return {
             })
 
             vim.api.nvim_create_autocmd('LspDetach', {
-              group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+              group = vim.api.nvim_create_augroup('kickstart-lsp-detach-' .. event.buf, { clear = true }),
+              buffer = event.buf,
               callback = function(event2)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds({ group = 'kickstart-lsp-highlight', buffer = event2.buf })
+                vim.api.nvim_clear_autocmds({ group = highlight_group_name, buffer = event2.buf })
               end,
             })
           end
@@ -194,13 +181,6 @@ return {
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
             end, 'Toggle Inlay Hints')
           end
-          vim.diagnostic.config({
-            virtual_lines = {
-              format = function(diagnostic)
-                return string.format('%s: %s: %s', diagnostic.source, diagnostic.code, diagnostic.message)
-              end,
-            },
-          })
         end,
       })
     end,
