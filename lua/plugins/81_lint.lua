@@ -1,18 +1,3 @@
-local function find_go_module_root()
-  local current_dir = vim.fn.getcwd()
-  while current_dir and current_dir ~= '/' do
-    if vim.fn.test_file(current_dir .. '/go.mod', 'r') then
-      return current_dir
-    end
-    local parent_dir = vim.fn.fnamemodify(current_dir, ':h')
-    if parent_dir == current_dir then
-      break
-    end
-    current_dir = parent_dir
-  end
-  return vim.fn.getcwd()
-end
-
 return {
   {
     'mfussenegger/nvim-lint',
@@ -21,55 +6,10 @@ return {
       events = { 'BufWritePost', 'BufReadPost', 'InsertLeave' },
       linters_by_ft = {
         ['*'] = { 'gitleaks' },
-        go = {
-          -- 'revive',
-          'errcheck',
-        },
+        go = { 'golangcilint' },
         make = { 'checkmake' },
       },
-      linters = {
-        errcheck = {
-          cmd = 'errcheck',
-          stdin = false,
-          append_fname = false,
-          args = { './...' },
-          cwd = find_go_module_root,
-          ignore_exitcode = true,
-          parser = function(output, bufnr)
-            local items = {}
-
-            if output == nil or output == '' then
-              return items
-            end
-
-            local bufpath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':p')
-            local pkg_dir = vim.fn.fnamemodify(bufpath, ':h')
-
-            for line in output:gmatch('[^\r\n]+') do
-              local file, lnum, col, message = line:match('^(.+):(%d+):(%d+):%s*(.+)$')
-              if file and lnum and col and message then
-                local fullpath
-                if vim.startswith(file, '/') then
-                  fullpath = vim.fn.fnamemodify(file, ':p')
-                else
-                  fullpath = vim.fn.fnamemodify(pkg_dir .. '/' .. file, ':p')
-                end
-
-                table.insert(items, {
-                  source = 'errcheck',
-                  lnum = tonumber(lnum) - 1,
-                  col = tonumber(col) - 1,
-                  message = 'unchecked error: ' .. message,
-                  severity = vim.diagnostic.severity.WARN,
-                  filename = fullpath,
-                })
-              end
-            end
-
-            return items
-          end,
-        },
-      },
+      linters = {},
     },
     config = function(_, opts)
       local M = {}

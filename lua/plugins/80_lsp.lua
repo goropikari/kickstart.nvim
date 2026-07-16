@@ -62,7 +62,7 @@ return {
           end,
         },
         {
-          'revive',
+          'golangci-lint',
           condition = function()
             return vim.fn.executable('go') == 1
           end,
