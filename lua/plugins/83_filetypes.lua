@@ -48,4 +48,9 @@ return {
       pattern = { '*.plantuml', '*.go', '*.cpp', '*.py' },
     },
   },
+  {
+    'goropikari/sarif.nvim',
+    dev = true,
+    opts = {},
+  },
 }

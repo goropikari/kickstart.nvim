@@ -184,3 +184,9 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     vim.bo.filetype = 'dockerfile'
   end,
 })
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.sarif',
+  callback = function()
+    vim.bo.filetype = 'sarif'
+  end,
+})
