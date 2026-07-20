@@ -1,3 +1,5 @@
+local tab_buffers = {}
+
 return {
   {
     'neanias/everforest-nvim',
@@ -38,6 +40,21 @@ return {
         ui_select = true,
       },
     },
+    config = function(_, opts)
+      require('snacks').setup(opts)
+
+      local group = vim.api.nvim_create_augroup('tab_buffers', { clear = true })
+      vim.api.nvim_create_autocmd('BufEnter', {
+        group = group,
+        callback = function(args)
+          if vim.bo[args.buf].buflisted then
+            local tab = vim.api.nvim_get_current_tabpage()
+            tab_buffers[tab] = tab_buffers[tab] or {}
+            tab_buffers[tab][args.buf] = true
+          end
+        end,
+      })
+    end,
     keys = {
       {
         '<leader>:',
@@ -49,9 +66,14 @@ return {
       {
         '<leader><space>',
         function()
-          local current_tab_buffers = {}
-          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-            current_tab_buffers[vim.api.nvim_win_get_buf(win)] = true
+          local tab = vim.api.nvim_get_current_tabpage()
+          local current_tab_buffers = tab_buffers[tab] or {}
+
+          -- The current buffer may have been entered before the autocmd was set.
+          local current_buf = vim.api.nvim_get_current_buf()
+          if vim.bo[current_buf].buflisted then
+            current_tab_buffers[current_buf] = true
+            tab_buffers[tab] = current_tab_buffers
           end
 
           require('snacks').picker.buffers({
