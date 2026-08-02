@@ -6,7 +6,7 @@ return {
       events = { 'BufWritePost', 'BufReadPost', 'InsertLeave' },
       linters_by_ft = {
         ['*'] = { 'gitleaks' },
-        go = { 'golangcilint' },
+        go = { 'golangcilint', 'gonextuse' },
         make = { 'checkmake' },
       },
       linters = {},
@@ -26,6 +26,46 @@ return {
           lint.linters[name] = linter
         end
       end
+      lint.linters.gonextuse = function()
+        local filename = vim.api.nvim_buf_get_name(0)
+        local go_mod = vim.fs.find('go.mod', {
+          path = vim.fs.dirname(filename),
+          upward = true,
+        })[1]
+
+        return {
+          cmd = 'gonextuse',
+          stdin = false,
+          append_fname = false,
+          args = { './...' },
+          stream = 'stdout',
+          ignore_exitcode = true,
+          cwd = go_mod and vim.fs.dirname(go_mod) or vim.fn.getcwd(),
+          parser = require('lint.parser').from_pattern(
+            '^(.+):(%d+):(%d+): (.+)$',
+            { 'file', 'lnum', 'col', 'message' },
+            nil,
+            {
+              severity = vim.diagnostic.severity.WARN,
+            }
+          ),
+        }
+      end
+
+      vim.diagnostic.config({
+        virtual_text = false,
+        float = {
+          format = function(diagnostic)
+            return 'gonextuse: ' .. diagnostic.message
+          end,
+        },
+        virtual_lines = {
+          format = function(diagnostic)
+            return 'gonextuse: ' .. diagnostic.message
+          end,
+        },
+      }, lint.get_namespace('gonextuse'))
+
       lint.linters_by_ft = opts.linters_by_ft
 
       function M.debounce(ms, fn)
