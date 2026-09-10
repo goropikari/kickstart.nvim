@@ -17,7 +17,6 @@ vim.lsp.enable({
   'gopls',
   'lua_ls',
   'pylsp',
-  'ruby_lsp',
   'ts_ls',
   'typos_lsp',
   'yamlls',

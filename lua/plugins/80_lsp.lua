@@ -62,12 +62,6 @@ return {
           end,
         },
         {
-          'ruby-lsp',
-          condition = function()
-            return vim.fn.executable('ruby') == 1
-          end,
-        },
-        {
           'lua-language-server',
         },
         {

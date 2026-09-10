@@ -92,7 +92,7 @@ return {
           require('snacks').picker.files({
             hidden = true,
             ignored = true,
-            exclude = { '.git', 'node_modules' },
+            exclude = { '.git', 'node_modules', 'graphify-out' },
           })
         end,
         desc = 'search file',
@@ -100,7 +100,9 @@ return {
       {
         '<leader>sg',
         function()
-          require('snacks').picker.grep()
+          require('snacks').picker.grep({
+            exclude = { '.git', 'node_modules', 'graphify-out' },
+          })
         end,
         desc = 'Search by Grep',
       },
@@ -109,7 +111,7 @@ return {
         function()
           require('snacks').picker.pickers()
         end,
-        desc = 'Search by Grep',
+        desc = 'Search picker',
       },
     },
   },

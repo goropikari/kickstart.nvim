@@ -1,0 +1,142 @@
+{
+  "after/lsp/clangd.lua": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "7e1fc857a633bd67c2152004a572638c",
+    "semantic_hash": "7e1fc857a633bd67c2152004a572638c"
+  },
+  "after/lsp/gopls.lua": {
+    "mtime": 1784230303.170619,
+    "ast_hash": "e73f44be7d97867c81102e4d199757d0",
+    "semantic_hash": "e73f44be7d97867c81102e4d199757d0"
+  },
+  "after/lsp/lua_ls.lua": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "8261dbe5027147dca247a06a27139a96",
+    "semantic_hash": "8261dbe5027147dca247a06a27139a96"
+  },
+  "dprint.json": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "7bb34f78359274abc7f1095bbcb8f000",
+    "semantic_hash": "7bb34f78359274abc7f1095bbcb8f000"
+  },
+  "filetype.lua": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "e389232fd96418b1bede855ad4f78425",
+    "semantic_hash": "e389232fd96418b1bede855ad4f78425"
+  },
+  "init.lua": {
+    "mtime": 1784229040.622946,
+    "ast_hash": "34c86806885063ce455178f4bc66ad8b",
+    "semantic_hash": "34c86806885063ce455178f4bc66ad8b"
+  },
+  "lazy-lock.json": {
+    "mtime": 1786288940.8981214,
+    "ast_hash": "a2643f499ac2d1adb641df533ce3e86e",
+    "semantic_hash": "a2643f499ac2d1adb641df533ce3e86e"
+  },
+  "lua/base.lua": {
+    "mtime": 1784229903.1707215,
+    "ast_hash": "803f8fd4a77333e10a59ffb475f3c41c",
+    "semantic_hash": "803f8fd4a77333e10a59ffb475f3c41c"
+  },
+  "lua/cmds.lua": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "d44fb9ee528b2b0132a6dea1b3bbc273",
+    "semantic_hash": "d44fb9ee528b2b0132a6dea1b3bbc273"
+  },
+  "lua/config/lazy.lua": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "0d3502da3f963063717cdbf80ec41dc4",
+    "semantic_hash": "0d3502da3f963063717cdbf80ec41dc4"
+  },
+  "lua/custom/plugins/init.lua": {
+    "mtime": 1778401738.3434134,
+    "ast_hash": "5807b4dacf3f963bb49bc12174f00f1a",
+    "semantic_hash": "5807b4dacf3f963bb49bc12174f00f1a"
+  },
+  "lua/custom/plugins/nvim-dap-bash/lua/dap-bash.lua": {
+    "mtime": 1778401738.3474135,
+    "ast_hash": "8c292deb3a6eb1a35f06c943625b2222",
+    "semantic_hash": "8c292deb3a6eb1a35f06c943625b2222"
+  },
+  "lua/lsp.lua": {
+    "mtime": 1784229045.7349448,
+    "ast_hash": "22f151a57edfbc1024731a1a1063141b",
+    "semantic_hash": "22f151a57edfbc1024731a1a1063141b"
+  },
+  "lua/plugins/01_ui.lua": {
+    "mtime": 1786825096.174953,
+    "ast_hash": "ce03deaaff75b1ec8faae39694913211",
+    "semantic_hash": "ce03deaaff75b1ec8faae39694913211"
+  },
+  "lua/plugins/02_navigation.lua": {
+    "mtime": 1784229963.326706,
+    "ast_hash": "98fcb7ad59691b2083641e56f84fb4fe",
+    "semantic_hash": "98fcb7ad59691b2083641e56f84fb4fe"
+  },
+  "lua/plugins/03_editing.lua": {
+    "mtime": 1784229486.814829,
+    "ast_hash": "33364288eec4e6301f3506c304688648",
+    "semantic_hash": "33364288eec4e6301f3506c304688648"
+  },
+  "lua/plugins/04_git.lua": {
+    "mtime": 1778401738.3474135,
+    "ast_hash": "9d26ea45a73aea5b9562edc2a0cf1841",
+    "semantic_hash": "9d26ea45a73aea5b9562edc2a0cf1841"
+  },
+  "lua/plugins/05_completion.lua": {
+    "mtime": 1778401738.3474135,
+    "ast_hash": "d3eaade8d6f1befff896013d97586820",
+    "semantic_hash": "d3eaade8d6f1befff896013d97586820"
+  },
+  "lua/plugins/06_formatting.lua": {
+    "mtime": 1784230310.514617,
+    "ast_hash": "9fc62eb33b013239ce65a61fb997f07c",
+    "semantic_hash": "9fc62eb33b013239ce65a61fb997f07c"
+  },
+  "lua/plugins/07_tools.lua": {
+    "mtime": 1781807332.7749283,
+    "ast_hash": "6f20625a6790f49bc15853c13060c255",
+    "semantic_hash": "6f20625a6790f49bc15853c13060c255"
+  },
+  "lua/plugins/08_competitive.lua": {
+    "mtime": 1778401738.3474135,
+    "ast_hash": "15a751dc1fe8ca077b637584fd76384d",
+    "semantic_hash": "15a751dc1fe8ca077b637584fd76384d"
+  },
+  "lua/plugins/09_codesearch.lua": {
+    "mtime": 1786817527.4172347,
+    "ast_hash": "d3ebe7719bbd154f66a1a552fece9060",
+    "semantic_hash": "d3ebe7719bbd154f66a1a552fece9060"
+  },
+  "lua/plugins/80_lsp.lua": {
+    "mtime": 1784230316.1026154,
+    "ast_hash": "af9210e07e8724c4e36aa8ba0a2458bf",
+    "semantic_hash": "af9210e07e8724c4e36aa8ba0a2458bf"
+  },
+  "lua/plugins/81_lint.lua": {
+    "mtime": 1785689215.9387918,
+    "ast_hash": "0d3ad3acdb7269730a2b38d2a51c211b",
+    "semantic_hash": "0d3ad3acdb7269730a2b38d2a51c211b"
+  },
+  "lua/plugins/82_test.lua": {
+    "mtime": 1778401738.3474135,
+    "ast_hash": "d6b964dacba22c297d6f6112723ae077",
+    "semantic_hash": "d6b964dacba22c297d6f6112723ae077"
+  },
+  "lua/plugins/83_filetypes.lua": {
+    "mtime": 1785688487.1067433,
+    "ast_hash": "497ed71e3d44892576227db5bebc98bf",
+    "semantic_hash": "497ed71e3d44892576227db5bebc98bf"
+  },
+  "lua/plugins/84_llm.lua": {
+    "mtime": 1784230540.918558,
+    "ast_hash": "47adbf9101b514b6c7ed4de213101bf3",
+    "semantic_hash": "47adbf9101b514b6c7ed4de213101bf3"
+  },
+  "lua/utils.lua": {
+    "mtime": 1778401738.3474135,
+    "ast_hash": "7ef1e6c45469b7e614fcce81c8c19015",
+    "semantic_hash": "7ef1e6c45469b7e614fcce81c8c19015"
+  }
+}

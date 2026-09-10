@@ -86,28 +86,28 @@ return {
       require('dap-python').setup('python')
     end,
   },
-  {
-    'goropikari/nvim-dap-rdbg',
-    dev = true,
-    dependencies = {
-      'mfussenegger/nvim-dap',
-    },
-    lazy = true,
-    ft = { 'ruby' },
-    enabled = vim.fn.executable('ruby') == 1,
-    opts = {
-      configurations = {
-        {
-          type = 'rdbg',
-          name = 'Ruby Debugger: Current File (bundler)',
-          request = 'launch',
-          command = 'ruby',
-          script = '${file}',
-          use_bundler = true,
-        },
-      },
-    },
-  },
+  -- {
+  --   'goropikari/nvim-dap-rdbg',
+  --   dev = true,
+  --   dependencies = {
+  --     'mfussenegger/nvim-dap',
+  --   },
+  --   lazy = true,
+  --   ft = { 'ruby' },
+  --   enabled = vim.fn.executable('ruby') == 1,
+  --   opts = {
+  --     configurations = {
+  --       {
+  --         type = 'rdbg',
+  --         name = 'Ruby Debugger: Current File (bundler)',
+  --         request = 'launch',
+  --         command = 'ruby',
+  --         script = '${file}',
+  --         use_bundler = true,
+  --       },
+  --     },
+  --   },
+  -- },
   {
     'goropikari/nvim-dap-cpp',
     dev = true,

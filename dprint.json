@@ -15,7 +15,8 @@
   },
   "excludes": [
     "**/*-lock.json",
-    "**/node_modules"
+    "**/node_modules",
+    "graphify-out/graph.html"
   ],
   "plugins": [
     "https://plugins.dprint.dev/json-0.19.4.wasm",

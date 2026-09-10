@@ -1,6 +1,26 @@
 tags
 test.sh
-.luarc.json
 nvim
 .codex
 nvim.log
+.tools/
+
+# Neovim temporary and session files
+*.swp
+*.swo
+*.swn
+*~
+.netrwhist
+Session.vim
+shada/
+undo/
+
+# OS and editor metadata
+.DS_Store
+
+# Logs
+*.log
+
+graphify-out/cost.json
+graphify-out/cache/
+.implementation-orchestrator

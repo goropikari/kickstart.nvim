@@ -41,14 +41,9 @@ return {
           stream = 'stdout',
           ignore_exitcode = true,
           cwd = go_mod and vim.fs.dirname(go_mod) or vim.fn.getcwd(),
-          parser = require('lint.parser').from_pattern(
-            '^(.+):(%d+):(%d+): (.+)$',
-            { 'file', 'lnum', 'col', 'message' },
-            nil,
-            {
-              severity = vim.diagnostic.severity.WARN,
-            }
-          ),
+          parser = require('lint.parser').from_pattern('^(.+):(%d+):(%d+): (.+)$', { 'file', 'lnum', 'col', 'message' }, nil, {
+            severity = vim.diagnostic.severity.WARN,
+          }),
         }
       end
 

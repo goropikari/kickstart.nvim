@@ -1,0 +1,136 @@
+{
+  "communities": {
+    "0": [
+      "lua_plugins_01_ui",
+      "lua_utils",
+      "lua_utils_m_dig",
+      "lua_utils_m_get_visual_lines",
+      "lua_utils_m_show_visual_lines"
+    ],
+    "1": [
+      "lua_base",
+      "lua_base_g_status_filepath",
+      "lua_base_is_docker"
+    ],
+    "2": [
+      "lua_plugins_81_lint",
+      "lua_plugins_81_lint_m_debounce",
+      "lua_plugins_81_lint_m_lint"
+    ],
+    "3": [
+      "lua_cmds",
+      "lua_cmds_augroup"
+    ],
+    "4": [
+      "lua_custom_plugins_nvim_dap_bash_lua_dap_bash",
+      "lua_custom_plugins_nvim_dap_bash_lua_dap_bash_m_setup"
+    ],
+    "5": [
+      "after_lsp_clangd"
+    ],
+    "6": [
+      "after_lsp_gopls"
+    ],
+    "7": [
+      "after_lsp_lua_ls"
+    ],
+    "8": [
+      "filetype"
+    ],
+    "9": [
+      "init"
+    ],
+    "10": [
+      "lua_config_lazy"
+    ],
+    "11": [
+      "lua_custom_plugins_init"
+    ],
+    "12": [
+      "lua_lsp"
+    ],
+    "13": [
+      "lua_plugins_02_navigation"
+    ],
+    "14": [
+      "lua_plugins_03_editing"
+    ],
+    "15": [
+      "lua_plugins_04_git"
+    ],
+    "16": [
+      "lua_plugins_05_completion"
+    ],
+    "17": [
+      "lua_plugins_06_formatting"
+    ],
+    "18": [
+      "lua_plugins_07_tools"
+    ],
+    "19": [
+      "lua_plugins_08_competitive"
+    ],
+    "20": [
+      "lua_plugins_09_codesearch"
+    ],
+    "21": [
+      "lua_plugins_80_lsp"
+    ],
+    "22": [
+      "lua_plugins_82_test"
+    ],
+    "23": [
+      "lua_plugins_83_filetypes"
+    ],
+    "24": [
+      "lua_plugins_84_llm"
+    ]
+  },
+  "cohesion": {
+    "0": 0.5,
+    "1": 0.6666666666666666,
+    "2": 0.6666666666666666,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0
+  },
+  "gods": [
+    {
+      "id": "lua_utils_m_get_visual_lines",
+      "label": "M.get_visual_lines()",
+      "degree": 2
+    },
+    {
+      "id": "lua_utils_m_show_visual_lines",
+      "label": "M.show_visual_lines()",
+      "degree": 2
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "no_signal",
+      "question": null,
+      "why": "Not enough signal to generate questions. This usually means the corpus has no AMBIGUOUS edges, no bridge nodes, no INFERRED relationships, and all communities are tightly cohesive. Add more files or run with --mode deep to extract richer edges."
+    }
+  ]
+}
